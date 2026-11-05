@@ -1,0 +1,5 @@
+{
+  "number": 825,
+  "title": "Add PagerDuty connector",
+  "body": "Add a PagerDuty connector with catalog, broker, and regional endpoint coverage."
+}

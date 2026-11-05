@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verdict Room</title>
+<style>
+:root{--bg:#eef1f4;--panel:#fff;--ink:#1b2430;--mute:#5d6b7c;--line:#d5dce4;--ok:#1d7a6c;--warn:#a96a0b;--bad:#b0342c;--na:#6b7686;--acc:#2f4f86}
+@media (prefers-color-scheme:dark){:root{--bg:#10151c;--panel:#18202a;--ink:#e6ebf1;--mute:#93a0b0;--line:#2a3542;--ok:#4fc3af;--warn:#e3a33d;--bad:#ef7b72;--na:#8c98a8;--acc:#8fb0ea}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,sans-serif}
+header{padding:20px 28px 12px;border-bottom:1px solid var(--line)}
+h1{font:600 22px/1.2 ui-serif,Georgia,serif;margin:0}
+.sub{color:var(--mute);margin-top:4px}
+.banner{display:inline-block;margin-top:8px;padding:2px 10px;border:1px solid var(--warn);color:var(--warn);border-radius:3px;font-size:13px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;padding:20px 28px}
+.pr{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.pr h2{font:600 16px/1.3 ui-serif,Georgia,serif;margin:0;padding:14px 16px 2px}
+.meta{padding:0 16px 10px;color:var(--mute);font-size:13px;border-bottom:1px solid var(--line)}
+.tally{display:flex;gap:14px;padding:8px 16px;font-size:13px;border-bottom:1px solid var(--line)}
+.row{padding:10px 16px;border-left:4px solid var(--na);border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row.VERIFIED{border-left-color:var(--ok)}.row.UNVERIFIED{border-left-color:var(--warn)}.row.CONTRADICTED{border-left-color:var(--bad)}
+.st{font-weight:600;font-size:13px}
+.VERIFIED .st{color:var(--ok)}.UNVERIFIED .st{color:var(--warn)}.CONTRADICTED .st{color:var(--bad)}.NOT_CHECKABLE .st{color:var(--na)}
+.why{color:var(--mute);font-size:13px;margin-top:2px}
+a{color:var(--acc)}
+.debate{margin:0 28px;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.debate b{font-weight:600}
+footer{position:sticky;bottom:0;margin-top:20px;padding:14px 28px;background:var(--panel);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:inherit;padding:7px 14px;border:1px solid var(--acc);background:transparent;color:var(--acc);border-radius:4px;cursor:pointer}
+button[aria-pressed=true]{background:var(--acc);color:var(--bg)}
+button.go{border-color:var(--ok);color:var(--ok)}button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+code{background:var(--bg);padding:2px 6px;border-radius:3px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <div class="sub" id="sub"></div>
+  <span class="banner" id="banner"></span>
+</header>
+<main id="board"></main>
+<section class="debate" id="debate"></section>
+<footer>
+  <span>Ruling:</span><span id="opts"></span>
+  <button class="go" id="approve" disabled>Approve ruling draft</button>
+  <span id="cmd"></span>
+</footer>
+<script>
+// TODO(phase 6): replace FIXTURE by fetch(`/cases/issue-${n}/ledger.json`) served by `verdict serve`.
+// FIXTURE below is ILLUSTRATIVE, derived from the Nov 4 snapshot notes. Statuses are not live-verified.
+const FIXTURE = {
+  source: "fixture", issue: 825, title: "Add PagerDuty connector",
+  prs: [
+    {n:1432, author:"song11071696", title:"Add the PagerDuty connector", state:"open", rows:[
+      {s:"UNVERIFIED", c:"224 connection tests passing", w:"Author-reported. Check-run not yet fetched.", l:"https://github.com/sandbox-quantum/switch/pull/1432/checks"},
+      {s:"UNVERIFIED", c:"131 Postgres-backed tests errored (Docker), fail the same on main", w:"Environment excuse. 'Same on main' needs a check-run on main.", l:"https://github.com/sandbox-quantum/switch/pull/1432"},
+      {s:"UNVERIFIED", c:"Identity verified via /users/me, regional endpoints fixed (US/EU)", w:"Design claim. Needs a diff check on adapter code.", l:"https://github.com/sandbox-quantum/switch/pull/1432/files"}]},
+    {n:1436, author:"jmass-ggg", title:"feat(connections): add PagerDuty connector (#825)", state:"open", rows:[
+      {s:"UNVERIFIED", c:"424 connector/broker/catalog tests passed", w:"Large count, but says nothing about a live connection.", l:"https://github.com/sandbox-quantum/switch/pull/1436/checks"},
+      {s:"CONTRADICTED", c:"Connector is complete", w:"PR itself says the broker rejects non-expiring API keys (key_never_expires): no working live connection or agent grant yet.", l:"https://github.com/sandbox-quantum/switch/pull/1436"}]}
+  ],
+  debate: [{who:"Examiner", t:"Neither PR demonstrates a working live connection. #1436 says so itself."},
+           {who:"Skeptic", t:"Show me #1432's agent grant path. Adapter reuse is not proof it clears the credential-lifetime policy."}]
+};
+const OUTCOMES = ["Prefer one PR","Ask authors to merge efforts","Close as duplicate","Need more evidence"];
+let picked = null;
+function render(d){
+  document.getElementById("title").textContent = `Issue #${d.issue}: ${d.title}`;
+  document.getElementById("sub").textContent = `${d.prs.length} competing PRs`;
+  document.getElementById("banner").textContent = d.source === "fixture" ? "Fixture data (recorded snapshot, not live)" : "Live data";
+  document.getElementById("board").innerHTML = d.prs.map(p=>{
+    const t = k=>p.rows.filter(r=>r.s===k).length;
+    return `<article class="pr"><h2>#${p.n} ${esc(p.title)}</h2><div class="meta">${esc(p.author)}, ${p.state}</div>
+    <div class="tally"><span>${t("VERIFIED")} verified</span><span>${t("UNVERIFIED")} unverified</span><span>${t("CONTRADICTED")} contradicted</span></div>
+    ${p.rows.map(r=>`<div class="row ${r.s}"><div class="st">${r.s.replace("_"," ").toLowerCase()}</div><div>${esc(r.c)}</div><div class="why">${esc(r.w)} <a href="${esc(r.l)}" target="_blank" rel="noopener">evidence</a></div></div>`).join("")}</article>`}).join("");
+  document.getElementById("debate").innerHTML = "<b>Room debate</b>" + d.debate.map(m=>`<div><b>${esc(m.who)}:</b> ${esc(m.t)}</div>`).join("");
+  document.getElementById("opts").innerHTML = OUTCOMES.map((o,i)=>`<button data-i="${i}" aria-pressed="false">${o}</button>`).join(" ");
+  document.querySelectorAll("#opts button").forEach(b=>b.onclick=()=>{
+    picked = OUTCOMES[b.dataset.i];
+    document.querySelectorAll("#opts button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    document.getElementById("approve").disabled = false;
+  });
+}
+document.getElementById("approve").onclick = ()=>{
+  // TODO(phase 7): POST /approve {issue, outcome} -> writes approval.json with draft hash.
+  document.getElementById("cmd").innerHTML = `Dry run only. Outcome: <code>${esc(picked)}</code>`;
+};
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+render(FIXTURE);
+</script>
+</body>
+</html>

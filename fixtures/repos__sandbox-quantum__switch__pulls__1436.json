@@ -1,0 +1,12 @@
+{
+  "number": 1436,
+  "title": "feat(connections): add PagerDuty connector (#825)",
+  "user": {"login": "jmass-ggg"},
+  "state": "open",
+  "merged": false,
+  "draft": false,
+  "head": {"sha": "fixture1436"},
+  "body": "Ran 424 connector/broker/catalog tests passed.\nThis does not yet provide a working live connection. The broker rejects non-expiring API keys (key_never_expires). No agent grant is available yet.\nCloses #825",
+  "html_url": "https://github.com/sandbox-quantum/switch/pull/1436",
+  "updated_at": "2026-11-04T00:00:00Z"
+}

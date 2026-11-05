@@ -1,0 +1,5 @@
+{
+  "number": 820,
+  "title": "Add Sentry connector",
+  "body": "Add a Sentry connector with read-only API behavior and tests."
+}

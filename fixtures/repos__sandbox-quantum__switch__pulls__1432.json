@@ -1,0 +1,12 @@
+{
+  "number": 1432,
+  "title": "Add the PagerDuty connector",
+  "user": {"login": "song11071696"},
+  "state": "open",
+  "merged": false,
+  "draft": false,
+  "head": {"sha": "fixture1432"},
+  "body": "Ran 224 connection tests, all pass. 131 Postgres-backed tests errored because Docker was unavailable.\nCloses #825",
+  "html_url": "https://github.com/sandbox-quantum/switch/pull/1432",
+  "updated_at": "2026-11-04T00:00:00Z"
+}

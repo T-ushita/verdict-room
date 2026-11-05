@@ -1,0 +1,30 @@
+{
+  "issue": 825,
+  "issue_title": "Add PagerDuty connector",
+  "issue_body": "Add a PagerDuty connector with catalog, broker, and regional endpoint coverage.",
+  "prs": [
+    {
+      "number": 1432,
+      "title": "Add the PagerDuty connector",
+      "author": "song11071696",
+      "state": "open",
+      "draft": false,
+      "head_sha": "fixture1432",
+      "body": "Ran 224 connection tests, all pass. 131 Postgres-backed tests errored because Docker was unavailable.\nCloses #825",
+      "url": "https://github.com/sandbox-quantum/switch/pull/1432",
+      "updated_at": "2026-11-04T00:00:00Z"
+    },
+    {
+      "number": 1436,
+      "title": "feat(connections): add PagerDuty connector (#825)",
+      "author": "jmass-ggg",
+      "state": "open",
+      "draft": false,
+      "head_sha": "fixture1436",
+      "body": "Ran 424 connector/broker/catalog tests passed.\nThis does not yet provide a working live connection. The broker rejects non-expiring API keys (key_never_expires). No agent grant is available yet.\nCloses #825",
+      "url": "https://github.com/sandbox-quantum/switch/pull/1436",
+      "updated_at": "2026-11-04T00:00:00Z"
+    }
+  ],
+  "source": "fixture"
+}
