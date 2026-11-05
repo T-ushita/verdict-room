@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1432-01",
+    "pr": 1432,
+    "text": "Ran 224 connection tests, all pass",
+    "kind": "tests",
+    "source_quote": "Ran 224 connection tests, all pass"
+  },
+  {
+    "id": "1432-02",
+    "pr": 1432,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1436-01",
+    "pr": 1436,
+    "text": "Ran 424 connector/broker/catalog tests passed",
+    "kind": "tests",
+    "source_quote": "Ran 424 connector/broker/catalog tests passed"
+  },
+  {
+    "id": "1436-02",
+    "pr": 1436,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  }
+]

@@ -35,6 +35,8 @@ def post(case_dir: Path, draft: str, live_flag: bool) -> str:
     ok, why = gate_open(case_dir, draft, live_flag)
     if not ok:
         return f"DRY RUN ({why}):\n{draft}"
-    # TODO: POST comment(s) via GitHub REST using GITHUB_TOKEN (needs write scope).
-    # Target repo must equal VERDICT_REPO and should be the sandbox fork for the demo.
+    if not os.environ.get("GITHUB_WRITE_TOKEN"):
+        return "DRY RUN (GITHUB_WRITE_TOKEN is not set)"
+    # TODO: POST comments with GITHUB_WRITE_TOKEN.
+    # Target repo must equal VERDICT_POST_REPO and be the sandbox fork for the demo.
     raise NotImplementedError("live posting not implemented")

@@ -1,4 +1,4 @@
-"""Heuristic claim extraction. Candidates only: the Examiner agent decides what matters."""
+"""Heuristic claim extraction. Candidates only: the Examiner decides what matters."""
 
 from __future__ import annotations
 
@@ -13,7 +13,10 @@ _RULES = [
             r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:pass|green)[^.\n]*"
         ),
     ),
-    ("tests", re.compile(r"(?i)[^.\n]*\b(?:all|tests?)\s+(?:pass|passed|passing|green)\b[^.\n]*")),
+    (
+        "tests",
+        re.compile(r"(?i)[^.\n]*\b(?:all|tests?)\s+(?:pass|passed|passing|green)\b[^.\n]*"),
+    ),
     (
         "lint",
         re.compile(r"(?i)[^.\n]*\b(?:ruff|mypy|lint|typecheck)\b[^.\n]*(?:pass|clean|ok)[^.\n]*"),
@@ -24,25 +27,39 @@ _RULES = [
     ),
     (
         "e2e",
-        re.compile(
-            r"(?i)[^.\n]*\b(?:end-to-end|e2e|live (?:sign-in|connection)|works with)\b[^.\n]*"
-        ),
-    ),
-    (
-        "self_disclosed_gap",
-        re.compile(
-            r"(?i)[^.\n]*\b(?:not yet|follow-up|follow up|outstanding|remain(?:s)? (?:a )?draft|does not yet|cannot yet|blocked)\b[^.\n]*"
-        ),
+        re.compile(r"(?i)[^.\n]*\b(?:end-to-end|e2e|works with)\b[^.\n]*"),
     ),
 ]
+
+_GAP_HINTS = (
+    "not yet",
+    "follow-up",
+    "remain a draft",
+    "blocked",
+    "rejects",
+    "key_never_expires",
+    "no agent grant",
+)
+
+
+def gap_hints(body: str) -> list[str]:
+    """Return deterministic gap phrases found in a PR body."""
+    text = body or ""
+    return [hint for hint in _GAP_HINTS if hint.lower() in text.lower()]
 
 
 def extract(pr_number: int, body: str) -> list[Claim]:
     seen: set[tuple[str, str]] = set()
     out: list[Claim] = []
-    for kind, rx in _RULES:
-        for m in rx.finditer(body or ""):
-            text = " ".join(m.group(0).split()).strip(" -*•#`")
+    for kind, pattern in _RULES:
+        for match in pattern.finditer(body or ""):
+            sentence = match.group(0)
+            if kind == "e2e" and re.search(
+                r"(?i)\b(?:not yet|does not yet|cannot yet|no .*yet)\b",
+                sentence,
+            ):
+                continue
+            text = " ".join(sentence.split()).strip(" -*•#`")
             if len(text) < 12 or (kind, text) in seen:
                 continue
             seen.add((kind, text))
@@ -55,4 +72,18 @@ def extract(pr_number: int, body: str) -> list[Claim]:
                     source_quote=text,
                 )
             )
+
+    if re.search(
+        r"(?i)\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#\d+\b",
+        body or "",
+    ):
+        out.append(
+            Claim(
+                id=f"{pr_number}-{len(out) + 1:02d}",
+                pr=pr_number,
+                text="This PR delivers a working integration for the linked issue.",
+                kind="e2e",
+                source_quote="Implicit claim from PR issue linkage",
+            )
+        )
     return out

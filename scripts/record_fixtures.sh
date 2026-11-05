@@ -14,9 +14,15 @@ mkdir -p fixtures
 
 save() {
   local path="$1"
-  local filename="${path#/}"
-  filename="${filename%%\?*}"
-  filename="${filename//\//__}.json"
+  local output="${2:-}"
+  local filename
+  if [[ -n "${output}" ]]; then
+    filename="${output}"
+  else
+    filename="${path#/}"
+    filename="${filename%%\?*}"
+    filename="${filename//\//__}.json"
+  fi
   curl --fail --silent --show-error \
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
@@ -26,14 +32,15 @@ save() {
 
 for issue in ${issues}; do
   save "repos/${repo}/issues/${issue}"
-  save "search/issues?q=repo:${repo}+is:pr+%23${issue}+in:title,body"
+  save "search/issues?q=repo:${repo}+is:pr+%23${issue}+in:title,body" \
+    "search__issues__${issue}.json"
   search_file="fixtures/search__issues__${issue}.json"
   while IFS= read -r pr; do
     pr_path="repos/${repo}/pulls/${pr}"
     pr_file="${pr_path//\//__}.json"
     save "${pr_path}"
     save "${pr_path}/files?per_page=100"
-    sha="$(python -c "import json; print(json.load(open('fixtures/${pr_file}'))['head']['sha'])")"
+    sha="$(python3 -c "import json; print(json.load(open('fixtures/${pr_file}'))['head']['sha'])")"
     save "repos/${repo}/commits/${sha}/check-runs"
-  done < <(python -c "import json; print('\n'.join(str(x['number']) for x in json.load(open('${search_file}'))['items']))")
+  done < <(python3 -c "import json; print('\n'.join(str(x['number']) for x in json.load(open('${search_file}'))['items']))")
 done
