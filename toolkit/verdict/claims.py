@@ -10,6 +10,12 @@ _RULES = [
     (
         "tests",
         re.compile(
+            r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|connection\s+|connector\/broker\/catalog\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:pass(?:ed)?|green|errored)[^.\n]*"
+        ),
+    ),
+    (
+        "tests",
+        re.compile(
             r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:pass|green)[^.\n]*"
         ),
     ),

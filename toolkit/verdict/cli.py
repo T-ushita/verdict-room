@@ -7,6 +7,7 @@ from pathlib import Path
 
 from . import casefile
 from . import claims as claims_mod
+from .evidence import check_ci, check_diff, check_policy, check_test_files
 from .github import GitHub
 from .schemas import to_dict
 
@@ -50,6 +51,41 @@ def cmd_claims(a):
     print(f"{len(out)} claim candidates")
 
 
+def cmd_evidence(a):
+    d = _case_dir(a.issue, offline=True if a.offline else None)
+    case = json.loads((d / "casefile.json").read_text())
+    claims = json.loads((d / "claims.json").read_text())
+    gh = GitHub(
+        os.environ.get("VERDICT_REPO", "sandbox-quantum/switch"),
+        offline=a.offline,
+    )
+    out = []
+    prs = {pr["number"]: pr for pr in case["prs"]}
+    for claim_data in claims:
+        claim = claims_mod.extract(claim_data["pr"], claim_data.get("source_quote", ""))
+        matching = next((item for item in claim if item.id == claim_data["id"]), None)
+        if matching is None:
+            from .schemas import Claim
+
+            matching = Claim(
+                claim_data["id"],
+                claim_data["pr"],
+                claim_data["text"],
+                claim_data["kind"],
+                claim_data["source_quote"],
+            )
+        pr = prs.get(claim_data["pr"])
+        if not pr:
+            continue
+        pr_url = pr["url"]
+        out += [to_dict(item) for item in check_ci(gh, matching, pr["head_sha"], pr_url)]
+        out += [to_dict(item) for item in check_diff(gh, matching, pr["number"], pr_url)]
+        out += [to_dict(item) for item in check_test_files(gh, matching, pr["number"], pr_url)]
+        out += [to_dict(item) for item in check_policy(matching, pr["draft"], pr_url, pr["body"])]
+    (d / "evidence.json").write_text(json.dumps(out, indent=2))
+    print(f"{len(out)} evidence rows")
+
+
 def cmd_todo(name):
     def f(a):
         raise SystemExit(f"`verdict {name}` not implemented yet. See docs/BUILD_PLAN.md")
@@ -68,7 +104,11 @@ def main():
     k.add_argument("issue", type=int)
     k.add_argument("--offline", action="store_true")
     k.set_defaults(fn=cmd_claims)
-    for name in ("evidence", "ledger", "ruling", "serve"):  # TODO phases 3,4,7,6
+    e = sub.add_parser("evidence")
+    e.add_argument("issue", type=int)
+    e.add_argument("--offline", action="store_true")
+    e.set_defaults(fn=cmd_evidence)
+    for name in ("ledger", "ruling", "serve"):  # TODO phases 4,7,6
         s = sub.add_parser(name)
         s.add_argument("issue", type=int, nargs="?")
         s.set_defaults(fn=cmd_todo(name))

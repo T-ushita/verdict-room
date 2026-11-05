@@ -1,8 +1,12 @@
 from verdict.casefile import build, refs_issue
 from verdict.claims import extract, gap_hints
+from verdict.evidence.ci import check_ci
+from verdict.evidence.diff import check_diff
+from verdict.evidence.policy import check_policy
 from verdict.github import GitHub
 from verdict.redact import redact
 from verdict.ruling import gate_open, write_approval
+from verdict.schemas import Claim, Status
 
 
 def test_refs_issue():
@@ -51,3 +55,71 @@ def test_offline_case_builds_competing_prs():
     case = build(GitHub("sandbox-quantum/switch", offline=True), 825)
     assert case.source == "fixture"
     assert [pr.number for pr in case.prs] == [1432, 1436]
+
+
+class FakeGitHub:
+    def __init__(self, check_runs=None, files=None):
+        self.check_runs_data = check_runs or {"check_runs": []}
+        self.files = files or []
+
+    def check_runs(self, sha):
+        return self.check_runs_data
+
+    def pr_files(self, pr_number):
+        return self.files
+
+
+def test_ci_failure_is_contradicted():
+    claim = Claim("1436-01", 1436, "tests pass", "tests", "tests pass")
+    rows = check_ci(
+        FakeGitHub({"check_runs": [{"conclusion": "failure"}]}),
+        claim,
+        "sha",
+        "https://example/pr/1436",
+    )
+    assert rows[0].supports == Status.CONTRADICTED
+
+
+def test_ci_action_required_is_unverified():
+    claim = Claim("1436-01", 1436, "tests pass", "tests", "tests pass")
+    rows = check_ci(
+        FakeGitHub({"check_runs": [{"conclusion": "action_required"}]}),
+        claim,
+        "sha",
+        "https://example/pr/1436",
+    )
+    assert rows[0].supports == Status.UNVERIFIED
+
+
+def test_gap_policy_contradicts_e2e():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    rows = check_policy(
+        claim,
+        False,
+        "https://example/pr/1436",
+        "The broker rejects key_never_expires; no agent grant is available yet",
+    )
+    assert rows[0].supports == Status.CONTRADICTED
+
+
+def test_diff_flags_missing_integration_path():
+    claim = Claim("1432-02", 1432, "working integration", "e2e", "working integration")
+    rows = check_diff(
+        FakeGitHub(files=[{"filename": "toolkit/test_core.py", "patch": ""}]),
+        claim,
+        1432,
+        "https://example/pr/1432",
+    )
+    assert rows[0].supports == Status.UNVERIFIED
+
+
+def test_diff_integration_path_is_weak_support():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    rows = check_diff(
+        FakeGitHub(files=[{"filename": "tests/e2e/connector_test.py", "patch": ""}]),
+        claim,
+        1436,
+        "https://example/pr/1436",
+    )
+    assert rows[0].supports == Status.UNVERIFIED
+    assert "integration/e2e test path present" in rows[0].result
