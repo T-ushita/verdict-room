@@ -72,7 +72,7 @@
   {
     "claim_id": "1436-02",
     "check": "policy",
-    "result": "PR body contains gap language: not yet, rejects, key_never_expires",
+    "result": "PR body contains gap language: not yet, rejects, key_never_expires, no agent grant",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436",
     "supports": "CONTRADICTED"
   }

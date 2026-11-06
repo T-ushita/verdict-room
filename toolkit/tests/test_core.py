@@ -4,9 +4,10 @@ from verdict.evidence.ci import check_ci
 from verdict.evidence.diff import check_diff
 from verdict.evidence.policy import check_policy
 from verdict.github import GitHub
+from verdict.ledger import merge
 from verdict.redact import redact
 from verdict.ruling import gate_open, write_approval
-from verdict.schemas import Claim, Status
+from verdict.schemas import Claim, Evidence, Status
 
 
 def test_refs_issue():
@@ -40,6 +41,8 @@ def test_implicit_e2e_and_gap_hints():
 
 def test_gate_requires_everything(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
     assert not gate_open(tmp_path, "d", True)[0]
     write_approval(tmp_path, "d", "maintainer")
     assert gate_open(tmp_path, "d", True)[0]
@@ -123,3 +126,68 @@ def test_diff_integration_path_is_weak_support():
     )
     assert rows[0].supports == Status.UNVERIFIED
     assert "integration/e2e test path present" in rows[0].result
+
+
+def test_claims_extract_errored_tests_and_verified_via():
+    body = "131 connection tests errored in Docker.\nIdentity was verified via /users/me."
+    claims = extract(1432, body)
+    assert any(c.kind == "tests" and "131" in c.text for c in claims)
+    assert any(c.kind == "e2e" and "/users/me" in c.text for c in claims)
+
+
+def test_ledger_code_contradiction_overrides_unverified():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    evidence = [
+        Evidence(
+            claim.id,
+            "policy",
+            "PR body contains gap language",
+            "https://example/pr/1436",
+            Status.CONTRADICTED,
+        )
+    ]
+    rows = merge(
+        [claim],
+        evidence,
+        {claim.id: {"status": "UNVERIFIED", "rationale": "uncertain", "judged_by": "Examiner"}},
+        {},
+    )
+    assert rows[0].status == Status.CONTRADICTED
+
+
+def test_ledger_code_contradiction_overrides_rebuttal():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    evidence = [
+        Evidence(
+            claim.id,
+            "policy",
+            "PR body contains gap language",
+            "https://example/pr/1436",
+            Status.CONTRADICTED,
+        )
+    ]
+    rows = merge(
+        [claim],
+        evidence,
+        {"1436-02": {"status": "UNVERIFIED", "rationale": "uncertain"}},
+        {},
+        {"1436-02": {"rebuttal": "new evidence", "new_status": "VERIFIED"}},
+    )
+    assert rows[0].status == Status.CONTRADICTED
+
+
+def test_ledger_no_evidence_forces_unverified():
+    claim = Claim("1432-01", 1432, "tests pass", "tests", "tests pass")
+    rows = merge([claim], [], {}, {})
+    assert rows[0].status == Status.UNVERIFIED
+    assert rows[0].evidence_links == []
+
+
+def test_gate_rejects_upstream_posting(tmp_path, monkeypatch):
+    monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "sandbox-quantum/switch")
+    write_approval(tmp_path, "d", "maintainer")
+    ok, reason = gate_open(tmp_path, "d", True)
+    assert not ok
+    assert "upstream" in reason

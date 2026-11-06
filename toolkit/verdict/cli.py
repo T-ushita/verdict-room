@@ -9,7 +9,8 @@ from . import casefile
 from . import claims as claims_mod
 from .evidence import check_ci, check_diff, check_policy, check_test_files
 from .github import GitHub
-from .schemas import to_dict
+from .ledger import merge
+from .schemas import Claim, Evidence, Status, to_dict
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = ROOT / "cases"
@@ -65,8 +66,6 @@ def cmd_evidence(a):
         claim = claims_mod.extract(claim_data["pr"], claim_data.get("source_quote", ""))
         matching = next((item for item in claim if item.id == claim_data["id"]), None)
         if matching is None:
-            from .schemas import Claim
-
             matching = Claim(
                 claim_data["id"],
                 claim_data["pr"],
@@ -84,6 +83,87 @@ def cmd_evidence(a):
         out += [to_dict(item) for item in check_policy(matching, pr["draft"], pr_url, pr["body"])]
     (d / "evidence.json").write_text(json.dumps(out, indent=2))
     print(f"{len(out)} evidence rows")
+
+
+def _read_agent_json(path: Path, labels: list[str]) -> dict:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        raise SystemExit(
+            f"{path.name}: malformed JSON at line {exc.lineno}, column {exc.colno}"
+        ) from exc
+    if not isinstance(payload, dict):
+        raise SystemExit(f"{path.name}: expected a JSON object keyed by claim id")
+    for claim_id, value in payload.items():
+        if not isinstance(value, dict):
+            raise SystemExit(f"{path.name}: entry {claim_id!r} must be a JSON object")
+        for label in labels:
+            if label not in value:
+                raise SystemExit(f"{path.name}: entry {claim_id!r} is missing {label!r}")
+    return payload
+
+
+def cmd_ledger(a):
+    d = _case_dir(a.issue, offline=True if a.offline else None)
+    claims_data = json.loads((d / "claims.json").read_text())
+    evidence_data = json.loads((d / "evidence.json").read_text())
+    claim_ids = {item["id"] for item in claims_data}
+    claims = [
+        Claim(
+            item["id"],
+            item["pr"],
+            item["text"],
+            item["kind"],
+            item["source_quote"],
+        )
+        for item in claims_data
+    ]
+    evidence = [
+        Evidence(
+            item["claim_id"],
+            item["check"],
+            item["result"],
+            item["link"],
+            Status(item["supports"]) if item.get("supports") else None,
+        )
+        for item in evidence_data
+    ]
+    verdicts = _read_agent_json(
+        d / "verdicts.json",
+        ["status", "rationale", "judged_by"],
+    )
+    challenges = _read_agent_json(d / "challenges.json", ["reason", "rebutted"])
+    rebuttals = _read_agent_json(d / "rebuttals.json", ["rebuttal"])
+    valid_statuses = {status.value for status in Status}
+    for filename, payload in (
+        ("verdicts.json", verdicts),
+        ("rebuttals.json", rebuttals),
+    ):
+        for claim_id, value in payload.items():
+            if claim_id not in claim_ids:
+                raise SystemExit(f"{filename}: unknown claim id {claim_id!r}")
+            status = value.get("status") or value.get("new_status")
+            if status is not None and status not in valid_statuses:
+                raise SystemExit(f"{filename}: invalid status {status!r} for {claim_id!r}")
+            rationale = (
+                value.get("rationale") if filename == "verdicts.json" else value.get("rebuttal")
+            )
+            if isinstance(rationale, str) and not rationale.strip():
+                raise SystemExit(f"{filename}: empty rationale for {claim_id!r}")
+    for claim_id, value in challenges.items():
+        if claim_id not in claim_ids:
+            raise SystemExit(f"challenges.json: unknown claim id {claim_id!r}")
+        if not isinstance(value["reason"], str) or not value["reason"].strip():
+            raise SystemExit(f"challenges.json: empty rationale for {claim_id!r}")
+
+    rows = merge(claims, evidence, verdicts, challenges, rebuttals)
+    (d / "ledger.json").write_text(json.dumps([to_dict(row) for row in rows], indent=2))
+    print(f"{'CLAIM':<10} {'PR':<6} {'STATUS':<13} RATIONALE")
+    for row in rows:
+        print(f"{row.claim_id:<10} {row.pr:<6} {row.status.value:<13} {row.rationale}")
+    print(f"{len(rows)} ledger rows")
 
 
 def cmd_todo(name):
@@ -108,7 +188,11 @@ def main():
     e.add_argument("issue", type=int)
     e.add_argument("--offline", action="store_true")
     e.set_defaults(fn=cmd_evidence)
-    for name in ("ledger", "ruling", "serve"):  # TODO phases 4,7,6
+    ledger = sub.add_parser("ledger")
+    ledger.add_argument("issue", type=int)
+    ledger.add_argument("--offline", action="store_true")
+    ledger.set_defaults(fn=cmd_ledger)
+    for name in ("ruling", "serve"):  # TODO phases 7,6
         s = sub.add_parser(name)
         s.add_argument("issue", type=int, nargs="?")
         s.set_defaults(fn=cmd_todo(name))

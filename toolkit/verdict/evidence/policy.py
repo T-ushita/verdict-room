@@ -1,7 +1,5 @@
+from ..claims import gap_hints
 from ..schemas import Claim, Evidence, Status
-
-# Phrases that, in a PR body, mean 'this does not work end to end yet'
-GAP_HINTS = ("not yet", "follow-up", "remain a draft", "blocked", "rejects", "key_never_expires")
 
 
 def check_policy(
@@ -12,7 +10,7 @@ def check_policy(
 ) -> list[Evidence]:
     out: list[Evidence] = []
     body = pr_body.lower()
-    hits = [hint for hint in GAP_HINTS if hint.lower() in body]
+    hits = gap_hints(pr_body)
     if claim.kind == "e2e" and hits:
         out.append(
             Evidence(
