@@ -3,13 +3,14 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import secrets
 from pathlib import Path
 
 from . import casefile
 from . import claims as claims_mod
 from .evidence import check_ci, check_diff, check_policy, check_test_files
 from .github import GitHub
-from .ledger import merge
+from .ledger import merge, validate_agent_inputs
 from .schemas import Claim, Evidence, Status, to_dict
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -85,26 +86,6 @@ def cmd_evidence(a):
     print(f"{len(out)} evidence rows")
 
 
-def _read_agent_json(path: Path, labels: list[str]) -> dict:
-    if not path.exists():
-        return {}
-    try:
-        payload = json.loads(path.read_text())
-    except json.JSONDecodeError as exc:
-        raise SystemExit(
-            f"{path.name}: malformed JSON at line {exc.lineno}, column {exc.colno}"
-        ) from exc
-    if not isinstance(payload, dict):
-        raise SystemExit(f"{path.name}: expected a JSON object keyed by claim id")
-    for claim_id, value in payload.items():
-        if not isinstance(value, dict):
-            raise SystemExit(f"{path.name}: entry {claim_id!r} must be a JSON object")
-        for label in labels:
-            if label not in value:
-                raise SystemExit(f"{path.name}: entry {claim_id!r} is missing {label!r}")
-    return payload
-
-
 def cmd_ledger(a):
     d = _case_dir(a.issue, offline=True if a.offline else None)
     claims_data = json.loads((d / "claims.json").read_text())
@@ -130,33 +111,10 @@ def cmd_ledger(a):
         )
         for item in evidence_data
     ]
-    verdicts = _read_agent_json(
-        d / "verdicts.json",
-        ["status", "rationale", "judged_by"],
-    )
-    challenges = _read_agent_json(d / "challenges.json", ["reason", "rebutted"])
-    rebuttals = _read_agent_json(d / "rebuttals.json", ["rebuttal"])
-    valid_statuses = {status.value for status in Status}
-    for filename, payload in (
-        ("verdicts.json", verdicts),
-        ("rebuttals.json", rebuttals),
-    ):
-        for claim_id, value in payload.items():
-            if claim_id not in claim_ids:
-                raise SystemExit(f"{filename}: unknown claim id {claim_id!r}")
-            status = value.get("status") or value.get("new_status")
-            if status is not None and status not in valid_statuses:
-                raise SystemExit(f"{filename}: invalid status {status!r} for {claim_id!r}")
-            rationale = (
-                value.get("rationale") if filename == "verdicts.json" else value.get("rebuttal")
-            )
-            if isinstance(rationale, str) and not rationale.strip():
-                raise SystemExit(f"{filename}: empty rationale for {claim_id!r}")
-    for claim_id, value in challenges.items():
-        if claim_id not in claim_ids:
-            raise SystemExit(f"challenges.json: unknown claim id {claim_id!r}")
-        if not isinstance(value["reason"], str) or not value["reason"].strip():
-            raise SystemExit(f"challenges.json: empty rationale for {claim_id!r}")
+    try:
+        verdicts, challenges, rebuttals = validate_agent_inputs(d, claim_ids)
+    except (TypeError, ValueError) as exc:
+        raise SystemExit(str(exc)) from exc
 
     rows = merge(claims, evidence, verdicts, challenges, rebuttals)
     (d / "ledger.json").write_text(json.dumps([to_dict(row) for row in rows], indent=2))
@@ -164,6 +122,21 @@ def cmd_ledger(a):
     for row in rows:
         print(f"{row.claim_id:<10} {row.pr:<6} {row.status.value:<13} {row.rationale}")
     print(f"{len(rows)} ledger rows")
+
+
+def cmd_serve(a):
+    from .server import Handler, VerdictServer
+
+    token = os.environ.get("VERDICT_SESSION_TOKEN") or secrets.token_urlsafe(32)
+    server = VerdictServer(("127.0.0.1", a.port), Handler, token)
+    print(f"Verdict Room: http://127.0.0.1:{a.port}")
+    print("Session token loaded into the local UI; do not share or commit it.")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()
 
 
 def cmd_todo(name):
@@ -192,7 +165,10 @@ def main():
     ledger.add_argument("issue", type=int)
     ledger.add_argument("--offline", action="store_true")
     ledger.set_defaults(fn=cmd_ledger)
-    for name in ("ruling", "serve"):  # TODO phases 7,6
+    serve = sub.add_parser("serve")
+    serve.add_argument("--port", type=int, default=8787)
+    serve.set_defaults(fn=cmd_serve)
+    for name in ("ruling",):  # TODO phase 7
         s = sub.add_parser(name)
         s.add_argument("issue", type=int, nargs="?")
         s.set_defaults(fn=cmd_todo(name))

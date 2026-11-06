@@ -30,16 +30,26 @@ can hide that the feature does not work end to end.
 - See `docs/ARCHITECTURE.md`.
 
 ## Quick start
+Create a local `.env` file; add tokens only when needed. `.env` is ignored by Git.
+
 ```bash
-cp .env.example .env        # add a read-only GITHUB_TOKEN
 just setup
-just case 820               # live fetch (or use fixtures offline)
-just ui                     # http://localhost:8787
+just case 825               # live fetch, or add --offline where supported
+cd toolkit && uv run pytest -q
+cd toolkit && uv run verdict ledger 825 --offline
+cd toolkit && uv run verdict serve
 ```
-Offline demo: `just demo` uses `fixtures/` (recorded snapshot, no network).
+Open `http://127.0.0.1:8787`.
+
+Offline demo: use `--offline` commands with `fixtures/`. Issue 825 is currently a
+fixture-backed snapshot, not a claim that the recorded GitHub data is live.
 
 ## Status
 See `docs/BUILD_PLAN.md`. Anything mocked is listed under "Honest limitations" below.
 
 ## Honest limitations
-_(fill in as built: what is recorded vs live, which checks are heuristic)_
+- The UI is a local Docket backed by case/ledger JSON files, not a deployed service.
+- Claim extraction is regex-based and heuristic.
+- Check-run and PR-file fixtures may be missing; unavailable evidence is reported as `UNVERIFIED`.
+- Switch room communication has not been verified by this CLI.
+- GitHub live posting remains guarded and is not implemented yet.

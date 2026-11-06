@@ -1,6 +1,71 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from .schemas import LedgerRow, Status
+
+
+def load_agent_json(
+    case_dir: Path,
+    filename: str,
+    required_fields: tuple[str, ...],
+) -> dict:
+    path = case_dir / filename
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        raise ValueError(
+            f"{filename}: malformed JSON at line {exc.lineno}, column {exc.colno}"
+        ) from exc
+    if not isinstance(payload, dict):
+        raise TypeError(f"{filename}: expected a JSON object keyed by claim id")
+    for claim_id, value in payload.items():
+        if not isinstance(claim_id, str) or not claim_id.strip():
+            raise ValueError(f"{filename}: claim id must be a non-empty string")
+        if not isinstance(value, dict):
+            raise TypeError(f"{filename}: entry {claim_id!r} must be a JSON object")
+        for field in required_fields:
+            if field not in value:
+                raise ValueError(f"{filename}: entry {claim_id!r} is missing {field!r}")
+    return payload
+
+
+def validate_agent_inputs(case_dir: Path, claim_ids: set[str]) -> tuple[dict, dict, dict]:
+    verdicts = load_agent_json(case_dir, "verdicts.json", ("status", "rationale", "judged_by"))
+    challenges = load_agent_json(case_dir, "challenges.json", ("reason", "rebutted"))
+    rebuttals = load_agent_json(case_dir, "rebuttals.json", ("rebuttal",))
+    valid_statuses = {status.value for status in Status}
+
+    for claim_id, value in verdicts.items():
+        if claim_id not in claim_ids:
+            raise ValueError(f"verdicts.json: unknown claim id {claim_id!r}")
+        if value["status"] not in valid_statuses:
+            raise ValueError(f"verdicts.json: invalid status {value['status']!r}")
+        for field in ("rationale", "judged_by"):
+            if not isinstance(value[field], str) or not value[field].strip():
+                raise ValueError(f"verdicts.json: {field} must be non-empty for {claim_id!r}")
+
+    for claim_id, value in challenges.items():
+        if claim_id not in claim_ids:
+            raise ValueError(f"challenges.json: unknown claim id {claim_id!r}")
+        if not isinstance(value["reason"], str) or not value["reason"].strip():
+            raise ValueError(f"challenges.json: reason must be non-empty for {claim_id!r}")
+        if not isinstance(value["rebutted"], bool):
+            raise TypeError(f"challenges.json: rebutted must be boolean for {claim_id!r}")
+
+    for claim_id, value in rebuttals.items():
+        if claim_id not in claim_ids:
+            raise ValueError(f"rebuttals.json: unknown claim id {claim_id!r}")
+        if not isinstance(value["rebuttal"], str) or not value["rebuttal"].strip():
+            raise ValueError(f"rebuttals.json: rebuttal must be non-empty for {claim_id!r}")
+        if "new_status" in value and value["new_status"] not in valid_statuses:
+            raise ValueError(
+                f"rebuttals.json: invalid new_status {value['new_status']!r} for {claim_id!r}"
+            )
+    return verdicts, challenges, rebuttals
 
 
 def merge(
