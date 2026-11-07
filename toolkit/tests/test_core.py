@@ -295,7 +295,7 @@ def test_generate_drafts(tmp_path):
 
 def test_scanner_detects_new_then_unchanged_only(tmp_path):
     class FakeGitHub:
-        def list_prs(self):
+        def list_prs(self, state="all", stop_before="", per_page=100):
             return [
                 {
                     "number": 1432,

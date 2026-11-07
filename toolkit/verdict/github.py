@@ -77,7 +77,12 @@ class GitHub:
             "items"
         ]
 
-    def list_prs(self, state: str = "all", per_page: int = 100) -> list[dict]:
+    def list_prs(
+        self,
+        state: str = "all",
+        per_page: int = 100,
+        stop_before: str = "",
+    ) -> list[dict]:
         prs = []
         page = 1
         while True:
@@ -87,7 +92,13 @@ class GitHub:
             )
             if not isinstance(batch, list) or not batch:
                 break
-            prs.extend(batch)
+            if stop_before:
+                keep = [pr for pr in batch if str(pr.get("updated_at", "")) > stop_before]
+                prs.extend(keep)
+                if len(keep) < len(batch):
+                    break
+            else:
+                prs.extend(batch)
             if len(batch) < per_page:
                 break
             page += 1
