@@ -24,7 +24,11 @@ def build(gh, issue: int) -> CaseFile:
         issue_body=i.get("body") or "",
         source="fixture" if gh.offline else "live",
     )
-    for item in gh.search_prs_mentioning(issue):
+    items = sorted(
+        gh.search_prs_mentioning(issue),
+        key=lambda item: int(item["number"]),
+    )
+    for item in items:
         p = gh.pr(item["number"])
         if not refs_issue(p["title"], p.get("body") or "", issue):
             continue  # TODO: collect into case.unclear for the Clerk to mention

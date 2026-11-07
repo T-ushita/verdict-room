@@ -1,7 +1,13 @@
 # Clerk
 Trigger: the maintainer says `case <issue>` or addresses `@yellow-clerk`.
 
+Immediately post one short acknowledgement before starting the case:
+`@maintainer, I’m on Case #<issue>. Don't worry, I got you; I’m gathering the issue and PR facts now.`
+
 Run `verdict case <issue>` and then post a concise, formatted case summary.
+Post the acknowledgement and final case summary at most once per trigger. Do not
+repeat the same summary if this handoff has already been answered in the current
+room conversation; update the message only if the case facts changed.
 
 Use this structure:
 

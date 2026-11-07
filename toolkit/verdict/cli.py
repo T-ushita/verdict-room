@@ -24,7 +24,9 @@ def _case_dir(issue: int, offline: bool | None = None) -> Path:
         if live_file.exists():
             offline = False
         elif offline_file.exists():
-            offline = json.loads(offline_file.read_text()).get("source") == "fixture"
+            offline = (
+                json.loads(offline_file.read_text(encoding="utf-8-sig")).get("source") == "fixture"
+            )
         else:
             offline = False
     d = CASES / f"issue-{issue}" if offline else CASES / "live" / f"issue-{issue}"
@@ -45,7 +47,7 @@ def cmd_case(a):
 
 def cmd_claims(a):
     d = _case_dir(a.issue, offline=True if a.offline else None)
-    case = json.loads((d / "casefile.json").read_text())
+    case = json.loads((d / "casefile.json").read_text(encoding="utf-8-sig"))
     out = []
     for p in case["prs"]:
         out += [to_dict(c) for c in claims_mod.extract(p["number"], p["body"])]
@@ -55,8 +57,8 @@ def cmd_claims(a):
 
 def cmd_evidence(a):
     d = _case_dir(a.issue, offline=True if a.offline else None)
-    case = json.loads((d / "casefile.json").read_text())
-    claims = json.loads((d / "claims.json").read_text())
+    case = json.loads((d / "casefile.json").read_text(encoding="utf-8-sig"))
+    claims = json.loads((d / "claims.json").read_text(encoding="utf-8-sig"))
     gh = GitHub(
         os.environ.get("VERDICT_REPO", "sandbox-quantum/switch"),
         offline=a.offline,
@@ -88,8 +90,8 @@ def cmd_evidence(a):
 
 def cmd_ledger(a):
     d = _case_dir(a.issue, offline=True if a.offline else None)
-    claims_data = json.loads((d / "claims.json").read_text())
-    evidence_data = json.loads((d / "evidence.json").read_text())
+    claims_data = json.loads((d / "claims.json").read_text(encoding="utf-8-sig"))
+    evidence_data = json.loads((d / "evidence.json").read_text(encoding="utf-8-sig"))
     claim_ids = {item["id"] for item in claims_data}
     claims = [
         Claim(

@@ -23,7 +23,7 @@ def issue_numbers(pr: dict) -> list[int]:
 
 
 def pr_status(pr: dict) -> str:
-    if pr.get("merged"):
+    if pr.get("merged") or pr.get("merged_at"):
         return "MERGED"
     if pr.get("draft"):
         return "BLOCKED_DRAFT"
@@ -207,7 +207,10 @@ def scan(
     unchanged: list[dict] = []
     affected_issues: set[int] = set()
 
-    for pr in gh.list_prs():
+    for pr in gh.list_prs(
+        state="open",
+        stop_before=previous.get("scanned_at", ""),
+    ):
         number = int(pr["number"])
         issues = issue_numbers(pr)
         issue_details = {}

@@ -1,0 +1,86 @@
+[
+    {
+        "sha":  "7c03a43b71befcef8cb51b99cda66a0f8bec08c1",
+        "filename":  "console/apps/switch-console-desktop/src/assets/images/connections/NOTICE.md",
+        "status":  "modified",
+        "additions":  1,
+        "deletions":  0,
+        "changes":  1,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2FNOTICE.md",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2FNOTICE.md",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2FNOTICE.md?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -30,6 +30,7 @@ All files fetched 2026-09-29, except `airtable.svg`, fetched 2026-10-14.\n | `airtable.svg` | Airtable | Simple Icons 16.33.0, `airtable` | CC0-1.0 | black in light theme, `#18BFFF` in dark theme |\n | `vercel.svg` | Vercel | Simple Icons 16.33.0, `vercel` | CC0-1.0; guidelines https://vercel.com/geist/brands | theme foreground |\n | `canva.svg` | Canva | Canva \"Icon logo\" from https://www.canva.dev/assets/connect/Canva-logos.zip | Canva Connect brand guidelines (https://www.canva.dev/docs/connect/guidelines/brand/) permit the unmodified icon logo in an integration\u0027s UI; gradient ids renamed only | full colour, unmodified |\n+| `sentry.svg` | Sentry | Simple Icons 16.33.0, `sentry` | CC0-1.0; guidelines https://sentry.io/branding/ | `#362D59`, white in dark theme |\n \n Simple Icons\u0027 CC0 dedication covers the drawings; it does not grant any\n trademark rights, which remain with the owners."
+    },
+    {
+        "sha":  "de6bb58c0f48e952873d9140181e3b70069a1958",
+        "filename":  "console/apps/switch-console-desktop/src/assets/images/connections/sentry.svg",
+        "status":  "added",
+        "additions":  1,
+        "deletions":  0,
+        "changes":  1,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2Fsentry.svg",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2Fsentry.svg",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Fassets%2Fimages%2Fconnections%2Fsentry.svg?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -0,0 +1 @@\n+\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\"\u003e\u003cpath d=\"M13.91 2.505c-.873-1.448-2.972-1.448-3.844 0L6.904 7.92a15.478 15.478 0 0 1 8.53 12.811h-2.221A13.301 13.301 0 0 0 5.784 9.814l-2.926 5.06a7.65 7.65 0 0 1 4.435 5.848H2.194a.365.365 0 0 1-.298-.534l1.413-2.402a5.16 5.16 0 0 0-1.614-.913L.296 19.275a2.182 2.182 0 0 0 .812 2.999 2.24 2.24 0 0 0 1.086.288h6.983a9.322 9.322 0 0 0-3.845-8.318l1.11-1.922a11.47 11.47 0 0 1 4.95 10.24h5.915a17.242 17.242 0 0 0-7.885-15.28l2.244-3.845a.37.37 0 0 1 .504-.13c.255.14 9.75 16.708 9.928 16.9a.365.365 0 0 1-.327.543h-2.287c.029.612.029 1.223 0 1.831h2.297a2.206 2.206 0 0 0 1.922-3.31z\"/\u003e\u003c/svg\u003e\n\\ No newline at end of file"
+    },
+    {
+        "sha":  "28f656911866367f15415e90c2b9563610855d31",
+        "filename":  "console/apps/switch-console-desktop/src/renderer/features/switch-servers/connection-icon.tsx",
+        "status":  "modified",
+        "additions":  1,
+        "deletions":  0,
+        "changes":  1,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Frenderer%2Ffeatures%2Fswitch-servers%2Fconnection-icon.tsx",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Frenderer%2Ffeatures%2Fswitch-servers%2Fconnection-icon.tsx",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/console%2Fapps%2Fswitch-console-desktop%2Fsrc%2Frenderer%2Ffeatures%2Fswitch-servers%2Fconnection-icon.tsx?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -39,6 +39,7 @@ const MARK_COLOR: Record\u003cstring, string\u003e = {\n   datadog: \u0027text-[#632CA6] emdark:text-foreground\u0027,\n   \u0027new-relic\u0027: \u0027text-foreground emdark:text-[#1CE783]\u0027,\n   airtable: \u0027text-foreground emdark:text-[#18BFFF]\u0027,\n+  sentry: \u0027text-[#362D59] emdark:text-foreground\u0027,\n };\n \n export function hasConnectionIcon(slug: string): boolean {"
+    },
+    {
+        "sha":  "fd046117b58db0d0fe985bbc398c5a269c105ac3",
+        "filename":  "console/packages/agent-providers/src/host/service-notices.ts",
+        "status":  "modified",
+        "additions":  2,
+        "deletions":  0,
+        "changes":  2,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fpackages%2Fagent-providers%2Fsrc%2Fhost%2Fservice-notices.ts",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/console%2Fpackages%2Fagent-providers%2Fsrc%2Fhost%2Fservice-notices.ts",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/console%2Fpackages%2Fagent-providers%2Fsrc%2Fhost%2Fservice-notices.ts?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -68,10 +68,12 @@ export const CONNECTOR_APPROVAL_NOTICE =\n /** How a notice names a catalog service; the slug for one it does not know. */\n export function serviceName(service: string): string {\n   const names: Record\u003cstring, string\u003e = {\n+    airtable: \u0027Airtable\u0027,\n     atlassian: \u0027Atlassian\u0027,\n     datadog: \u0027Datadog\u0027,\n     github: \u0027GitHub\u0027,\n     \u0027google-workspace\u0027: \u0027Google Workspace\u0027,\n+    sentry: \u0027Sentry\u0027,\n   };\n   return names[service] ?? service;\n }"
+    },
+    {
+        "sha":  "8511c00a90f7740bfef5066f9bfa1990ec6db4f4",
+        "filename":  "core/switch_core/connections/catalog/sentry/connection.yaml",
+        "status":  "added",
+        "additions":  47,
+        "deletions":  0,
+        "changes":  47,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fconnection.yaml",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fconnection.yaml",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fconnection.yaml?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -0,0 +1,47 @@\n+slug: sentry\n+name: Sentry\n+category: Observability\n+description: Inspect errors, stack traces, and triage Sentry issues, as you.\n+enabled: true\n+adapter: oauth\n+auth:\n+  type: oauth\n+  # Sentry rotates the refresh token on each use; the previous access token\n+  # and refresh token are invalidated upon refresh.\n+  refresh: rotating\n+  oauth:\n+    # Sentry\u0027s remote MCP server supports dynamic client registration (RFC 7591):\n+    # Core registers its own client on first connection and reuses it.\n+    registration: dynamic\n+    # Sentry matches loopback redirect ports strictly, registered dynamically.\n+    redirect: [loopback]\n+    loopback_ports: [39251, 39252, 39253, 39254, 39255]\n+    prompt: consent\n+    # Sentry supports RFC 7009 token revocation.\n+    revocation_discovered: true\n+  identity:\n+    url: \"https://sentry.io/api/0/users/me/\"\n+    account_id: id\n+    label: email\n+# Sentry OAuth access tokens live one hour; Core refreshes automatically.\n+token: { kind: pass_through, max_lifetime: 3600 }\n+mcp:\n+  servers:\n+    - { name: sentry, url: \"https://mcp.sentry.dev/mcp\" }\n+access:\n+  # Sentry scopes project, team and event capabilities under write scopes.\n+  # Sentry MCP tools pass through and include issue triage (resolve, ignore, assign).\n+  # Both levels request the write scopes so agents can inspect and triage issues.\n+  read:\n+    scopes:\n+      - org:read\n+      - project:write\n+      - team:write\n+      - event:write\n+  write:\n+    scopes:\n+      - org:read\n+      - project:write\n+      - team:write\n+      - event:write\n+tools: { mode: pass_through }"
+    },
+    {
+        "sha":  "ccf6a7e1e9882179c4daad68050907601e1dfa4d",
+        "filename":  "core/switch_core/connections/catalog/sentry/skill/SKILL.md",
+        "status":  "added",
+        "additions":  28,
+        "deletions":  0,
+        "changes":  28,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fskill%2FSKILL.md",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fskill%2FSKILL.md",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/core%2Fswitch_core%2Fconnections%2Fcatalog%2Fsentry%2Fskill%2FSKILL.md?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -0,0 +1,28 @@\n+---\n+name: sentry\n+description: Inspect errors, stack traces, and triage issues in Sentry acting with your owner\u0027s Sentry access.\n+---\n+\n+# Sentry\n+\n+The `sentry` MCP server gives you tools to inspect errors, crashes, performance issues, and triage defects in Sentry. Use them to investigate production defects, retrieve stack traces, identify offending releases, and update issue statuses.\n+\n+## What this connection can change:\n+\n+- **Triage operations:** Tools permit updating issue statuses (e.g. resolving, unresolving, ignoring) and assigning issues to team members.\n+- **Inspect before changing:** Always inspect issue details, frequency, and stack traces before making changes. Never mutate an issue (resolving, assigning, or updating status) without explicit confirmation from the user in the room.\n+\n+## How to work with it:\n+\n+- **Start narrow:** Always scope queries by project (`projectSlug`), organization (`organizationSlug`), environment, or time range. Unbounded searches across large organizations are slow and hit rate limits.\n+- **Quote context and links:** When summarizing errors or events, cite the issue ID, exception type, error message, culprit file or function, and direct URL to the Sentry issue so team members can verify your findings.\n+- **Respect data privacy:** Stack traces, error tags, and request breadcrumbs may contain sensitive customer or internal environment information. Summarize error traces concisely and never copy unneeded personal data into conversation rooms.\n+\n+## Finding things:\n+\n+- `search_issues` and `get_issue_details` find grouped issues and fetch their context, frequency, and first/last seen timestamps.\n+- `search_events` and `get_event_details` retrieve raw event payloads, breadcrumbs, and device/browser contexts.\n+- `find_projects` and `find_releases` identify available projects and deployed application releases.\n+- `find_monitors` and `find_alert_rules` inspect scheduled job monitors and alerting configuration.\n+\n+If a tool reports that access is not allowed or that permissions are insufficient, the connection does not cover the action: explain the restriction clearly rather than attempting workarounds."
+    },
+    {
+        "sha":  "933602b237c5c035293e11acdf216cf50f9f44e1",
+        "filename":  "core/tests/switch_core/connections/test_loader.py",
+        "status":  "modified",
+        "additions":  50,
+        "deletions":  1,
+        "changes":  51,
+        "blob_url":  "https://github.com/sandbox-quantum/switch/blob/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Ftests%2Fswitch_core%2Fconnections%2Ftest_loader.py",
+        "raw_url":  "https://github.com/sandbox-quantum/switch/raw/56090e04b67bb64eb64636450fa313d2f3174f0e/core%2Ftests%2Fswitch_core%2Fconnections%2Ftest_loader.py",
+        "contents_url":  "https://api.github.com/repos/sandbox-quantum/switch/contents/core%2Ftests%2Fswitch_core%2Fconnections%2Ftest_loader.py?ref=56090e04b67bb64eb64636450fa313d2f3174f0e",
+        "patch":  "@@ -25,26 +25,29 @@\n }\n \n \n-def test_shipped_catalog_enables_github_airtable_atlassian_datadog_and_google_workspace():\n+def test_shipped_catalog_enables_github_airtable_atlassian_datadog_google_workspace_and_sentry():\n     assert set(CATALOG) == PLACEHOLDERS | {\n         \"github\",\n         \"airtable\",\n         \"atlassian\",\n         \"datadog\",\n         \"google-workspace\",\n+        \"sentry\",\n     }\n     assert [slug for slug, entry in CATALOG.items() if entry.definition.enabled] == [\n         \"airtable\",\n         \"atlassian\",\n         \"datadog\",\n         \"github\",\n         \"google-workspace\",\n+        \"sentry\",\n     ]\n     assert all(not CATALOG[slug].skill_files for slug in PLACEHOLDERS)\n     assert \"SKILL.md\" in CATALOG[\"github\"].skill_files\n     assert \"SKILL.md\" in CATALOG[\"airtable\"].skill_files\n     assert \"SKILL.md\" in CATALOG[\"atlassian\"].skill_files\n     assert \"SKILL.md\" in CATALOG[\"google-workspace\"].skill_files\n+    assert \"SKILL.md\" in CATALOG[\"sentry\"].skill_files\n \n \n GOOGLE = \"https://www.googleapis.com/auth/\"\n@@ -947,6 +950,52 @@ def test_the_shipped_datadog_entry_puts_both_keys_in_its_mcp_headers():\n     assert definition.token.issued_to_agents is False\n \n \n+def test_the_shipped_sentry_entry_signs_in_as_the_spike_found_it_must():\n+    definition = CATALOG[\"sentry\"].definition\n+    oauth = definition.auth.oauth\n+    assert oauth is not None\n+    assert (definition.adapter, oauth.registration, oauth.redirect) == (\n+        \"oauth\",\n+        \"dynamic\",\n+        [\"loopback\"],\n+    )\n+    assert oauth.loopback_ports == [39251, 39252, 39253, 39254, 39255]\n+    assert oauth.prompt == \"consent\"\n+    assert oauth.revocation_discovered is True\n+    assert definition.auth.refresh == \"rotating\"\n+    assert definition.token is not None\n+    assert (definition.token.kind, definition.token.max_lifetime) == (\n+        \"pass_through\",\n+        3600,\n+    )\n+    assert definition.auth.identity is not None\n+    assert definition.auth.identity.url == \"https://sentry.io/api/0/users/me/\"\n+    assert (definition.auth.identity.account_id, definition.auth.identity.label) == (\n+        \"id\",\n+        \"email\",\n+    )\n+    assert definition.mcp is not None\n+    [server] = definition.mcp.servers\n+    assert server.name == \"sentry\"\n+    assert server.url == \"https://mcp.sentry.dev/mcp\"\n+    assert server.headers is None\n+    assert definition.access is not None\n+    assert definition.access.read.scopes == [\n+        \"org:read\",\n+        \"project:write\",\n+        \"team:write\",\n+        \"event:write\",\n+    ]\n+    assert definition.access.write.scopes == [\n+        \"org:read\",\n+        \"project:write\",\n+        \"team:write\",\n+        \"event:write\",\n+    ]\n+    assert definition.tools is not None and definition.tools.mode == \"pass_through\"\n+    assert \"SKILL.md\" in CATALOG[\"sentry\"].skill_files\n+\n+\n def test_loads_an_api_key_entry(catalog_copy):\n     _write_example(catalog_copy, API_KEY_ENTRY)\n     definition = load_catalog(catalog_copy)[\"example\"].definition"
+    }
+]

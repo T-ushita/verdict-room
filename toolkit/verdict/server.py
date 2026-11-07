@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import secrets
 from datetime import UTC, datetime
@@ -167,6 +166,10 @@ class Handler(BaseHTTPRequestHandler):
                 path.stem: clean_text(path.read_text(encoding="utf-8"))
                 for path in drafts_dir.glob("*.md")
             }
+        if "issue" not in drafts:
+            aggregate_draft = directory / "ruling.draft.md"
+            if aggregate_draft.exists():
+                drafts["issue"] = clean_text(aggregate_draft.read_text(encoding="utf-8"))
         approvals = {}
         approvals_dir = directory / "approvals"
         if approvals_dir.exists():
@@ -174,6 +177,12 @@ class Handler(BaseHTTPRequestHandler):
                 path.stem: json.loads(path.read_text(encoding="utf-8"))
                 for path in approvals_dir.glob("*.json")
             }
+        agent_files = {}
+        for filename in ("verdicts.json", "challenges.json", "rebuttals.json"):
+            path = directory / filename
+            agent_files[filename] = (
+                json.loads(path.read_text(encoding="utf-8-sig")) if path.exists() else {}
+            )
         self._send(
             HTTPStatus.OK,
             {
@@ -182,6 +191,9 @@ class Handler(BaseHTTPRequestHandler):
                 "ledger": ledger,
                 "drafts": drafts,
                 "approvals": approvals,
+                "verdicts": agent_files["verdicts.json"],
+                "challenges": agent_files["challenges.json"],
+                "rebuttals": agent_files["rebuttals.json"],
             },
         )
 
@@ -212,6 +224,8 @@ class Handler(BaseHTTPRequestHandler):
             self._draft(directory, payload)
         elif action == "approve":
             self._approve(directory, payload)
+        elif action == "approve_issue":
+            self._approve_issue(directory, payload)
         else:
             self._send(HTTPStatus.NOT_FOUND, {"error": "not found"})
 
@@ -265,8 +279,10 @@ class Handler(BaseHTTPRequestHandler):
         self._send(HTTPStatus.OK, {"saved": claim_id})
 
     def _draft(self, directory: Path, payload: dict):
+        from .ruling import draft_hash, normalize_draft_text
+
         pr = payload.get("pr")
-        draft = str(payload.get("draft", "")).strip()
+        draft = normalize_draft_text(str(payload.get("draft", "")))
         if not isinstance(pr, int) or not draft:
             self._send(HTTPStatus.BAD_REQUEST, {"error": "pr and draft are required"})
             return
@@ -276,12 +292,14 @@ class Handler(BaseHTTPRequestHandler):
         path.write_text(clean_text(draft) + "\n", encoding="utf-8")
         self._send(
             HTTPStatus.OK,
-            {"pr": pr, "draft_hash": hashlib.sha256(draft.encode()).hexdigest()[:12]},
+            {"pr": pr, "draft_hash": draft_hash(draft)},
         )
 
     def _approve(self, directory: Path, payload: dict):
+        from .ruling import normalize_draft_text, save_pr_approval
+
         pr = payload.get("pr")
-        draft = str(payload.get("draft", "")).strip()
+        draft = normalize_draft_text(str(payload.get("draft", "")))
         approver = str(payload.get("approver", "")).strip()
         outcome = str(payload.get("outcome", "")).strip()
         human_comments = clean_text(str(payload.get("human_comments", "")).strip())
@@ -291,26 +309,35 @@ class Handler(BaseHTTPRequestHandler):
                 {"error": "pr, draft, approver, and outcome required"},
             )
             return
-        timestamp = datetime.now(UTC).isoformat()
-        digest = hashlib.sha256(draft.encode()).hexdigest()[:12]
-        approval = {
-            "approver": approver,
-            "outcome": outcome,
-            "pr": pr,
-            "draft_hash": digest,
-            "timestamp": timestamp,
-            "human_comments": human_comments,
-        }
-        approvals = directory / "approvals"
-        approvals.mkdir(exist_ok=True)
-        per_pr = approvals / f"{pr}.json"
-        per_pr.write_text(
-            json.dumps(approval, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
+        approval = save_pr_approval(
+            directory,
+            pr,
+            draft,
+            approver,
+            outcome,
+            human_comments,
         )
-        (directory / "approval.json").write_text(
-            json.dumps(approval, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
+        self._send(HTTPStatus.OK, approval)
+
+    def _approve_issue(self, directory: Path, payload: dict):
+        from .ruling import normalize_draft_text, save_issue_approval
+
+        draft = normalize_draft_text(str(payload.get("draft", "")))
+        approver = str(payload.get("approver", "")).strip()
+        outcome = str(payload.get("outcome", "")).strip()
+        human_comments = clean_text(str(payload.get("human_comments", "")).strip())
+        if not draft or not approver or not outcome:
+            self._send(
+                HTTPStatus.BAD_REQUEST,
+                {"error": "issue draft, approver, and outcome required"},
+            )
+            return
+        approval = save_issue_approval(
+            directory,
+            draft,
+            approver,
+            outcome,
+            human_comments,
         )
         self._send(HTTPStatus.OK, approval)
 

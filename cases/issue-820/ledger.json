@@ -1,0 +1,346 @@
+[
+  {
+    "claim_id": "1098-01",
+    "pr": 1098,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1098/files",
+      "https://github.com/sandbox-quantum/switch/pull/1098/files",
+      "https://github.com/sandbox-quantum/switch/pull/1098"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1098-02",
+    "pr": 1098,
+    "claim": "Self-disclosed gap: rejects",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1098/files",
+      "https://github.com/sandbox-quantum/switch/pull/1098/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1219-01",
+    "pr": 1219,
+    "claim": "Result: all passed",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1219/checks",
+      "https://github.com/sandbox-quantum/switch/pull/1219/files",
+      "https://github.com/sandbox-quantum/switch/pull/1219/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1219-02",
+    "pr": 1219,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1219/files",
+      "https://github.com/sandbox-quantum/switch/pull/1219/files",
+      "https://github.com/sandbox-quantum/switch/pull/1219"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1219-03",
+    "pr": 1219,
+    "claim": "Self-disclosed gap: rejects",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1219/files",
+      "https://github.com/sandbox-quantum/switch/pull/1219/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1348-01",
+    "pr": 1348,
+    "claim": "uv run ruff check` & `ruff format --check` passed",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1348/checks",
+      "https://github.com/sandbox-quantum/switch/pull/1348/files",
+      "https://github.com/sandbox-quantum/switch/pull/1348/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1348-02",
+    "pr": 1348,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1348/files",
+      "https://github.com/sandbox-quantum/switch/pull/1348/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1392-01",
+    "pr": 1392,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1392/files",
+      "https://github.com/sandbox-quantum/switch/pull/1392/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-01",
+    "pr": 1434,
+    "claim": "| Python lint and formatting | Passed |",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/checks",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-02",
+    "pr": 1434,
+    "claim": "| Mypy | Passed |",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/checks",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-03",
+    "pr": 1434,
+    "claim": "Configured an honestly described write-capable access level rather than claiming unverified read-only restrictions",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-04",
+    "pr": 1434,
+    "claim": "Requested end-to-end demonstration video",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-05",
+    "pr": 1434,
+    "claim": "Self-disclosed gap: remain a draft",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1434-06",
+    "pr": 1434,
+    "claim": "Self-disclosed gap: rejects",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1434/files",
+      "https://github.com/sandbox-quantum/switch/pull/1434/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1471-01",
+    "pr": 1471,
+    "claim": "Administrative deletion capability (`event:admin`) is explicitly omitted to enforce least privilege",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1471/files",
+      "https://github.com/sandbox-quantum/switch/pull/1471/files",
+      "https://github.com/sandbox-quantum/switch/pull/1471"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1471-02",
+    "pr": 1471,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1471/files",
+      "https://github.com/sandbox-quantum/switch/pull/1471/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-01",
+    "pr": 1558,
+    "claim": "Sentry's consent screen asks which skills to allow: Inspect Issues & Events (48 read-only tools), Seer (18), Triage Issues (26), Manage Projects & Teams (25)",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-02",
+    "pr": 1558,
+    "claim": "com/sandbox-quantum/switch/issues/820#issuecomment-6596711549) asks for a vendor whose scopes cannot make a connection read-only, Sentry is offered at **one level, read and write**, labelled honestly",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-03",
+    "pr": 1558,
+    "claim": "Nothing is ever labelled read-only",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-04",
+    "pr": 1558,
+    "claim": "The token works with the MCP server alone",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-05",
+    "pr": 1558,
+    "claim": "This PR delivers a working integration for the linked issue.",
+    "status": "CONTRADICTED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1558-06",
+    "pr": 1558,
+    "claim": "Self-disclosed gap: rejects",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1558/files",
+      "https://github.com/sandbox-quantum/switch/pull/1558/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  }
+]

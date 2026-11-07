@@ -12,7 +12,15 @@ from verdict.evidence.policy import check_policy
 from verdict.github import GitHub
 from verdict.ledger import merge, validate_agent_inputs
 from verdict.redact import redact
-from verdict.ruling import gate_open, generate_drafts, write_approval
+from verdict.ruling import (
+    draft_hash,
+    gate_open,
+    generate_drafts,
+    normalize_draft_text,
+    save_issue_approval,
+    save_pr_approval,
+    write_approval,
+)
 from verdict.scanner import fingerprint, issue_numbers, pr_status, scan
 from verdict.schemas import Claim, Evidence, Status
 
@@ -35,7 +43,7 @@ def test_claims_extract_gap_and_tests():
     body = "Ran 424 tests, all pass.\nThis does not yet provide a working live connection."
     kinds = {c.kind for c in extract(1436, body)}
     assert "tests" in kinds
-    assert "self_disclosed_gap" not in kinds
+    assert "self_disclosed_gap" in kinds
     assert "e2e" not in kinds
 
 
@@ -48,7 +56,7 @@ def test_implicit_e2e_and_gap_hints():
     )
     claims = extract(1436, body)
     assert any(c.kind == "e2e" and c.source_quote.startswith("Implicit") for c in claims)
-    assert not any(c.kind == "self_disclosed_gap" for c in claims)
+    assert any(c.kind == "self_disclosed_gap" for c in claims)
     hints = gap_hints(body)
     assert "rejects" in hints
     assert "key_never_expires" in hints
@@ -58,11 +66,51 @@ def test_gate_requires_everything(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
     assert not gate_open(tmp_path, "d", True)[0]
     write_approval(tmp_path, "d", "maintainer")
+    save_issue_approval(tmp_path, "d", "maintainer", "approved")
+    monkeypatch.setenv("GITHUB_WRITE_TOKEN", "test-write-token")
     assert gate_open(tmp_path, "d", True)[0]
     assert not gate_open(tmp_path, "d2", True)[0]  # draft changed
     assert not gate_open(tmp_path, "d", False)[0]  # no --live
+
+
+def test_gate_requires_write_token(tmp_path, monkeypatch):
+    monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
+    monkeypatch.delenv("GITHUB_WRITE_TOKEN", raising=False)
+    write_approval(tmp_path, "d", "maintainer")
+    save_issue_approval(tmp_path, "d", "maintainer", "approved")
+    ok, reason = gate_open(tmp_path, "d", True)
+    assert not ok
+    assert "token" in reason.lower()
+
+
+def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
+    monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
+    monkeypatch.setenv("GITHUB_WRITE_TOKEN", "test-write-token")
+
+    textarea = "Verdict Room summary\r\n\r\nEvidence-ledger findings:\n- 825-01: VERIFIED\n"
+    approval = save_pr_approval(
+        tmp_path,
+        1432,
+        textarea,
+        "maintainer",
+        "approved",
+        "Looks complete.",
+    )
+
+    saved = (tmp_path / "drafts" / "1432.md").read_text(encoding="utf-8")
+    save_issue_approval(tmp_path, saved, "maintainer", "approved")
+    assert normalize_draft_text(saved) == normalize_draft_text(textarea)
+    assert approval["draft_hash"] == draft_hash(saved)
+    assert gate_open(tmp_path, saved, True)[0]
 
 
 def test_redact():
@@ -72,7 +120,10 @@ def test_redact():
 def test_offline_case_builds_competing_prs():
     case = build(GitHub("sandbox-quantum/switch", offline=True), 825)
     assert case.source == "fixture"
-    assert [pr.number for pr in case.prs] == [1432, 1436]
+    numbers = [pr.number for pr in case.prs]
+    assert numbers == sorted(numbers)
+    assert 1432 in numbers
+    assert 1436 in numbers
 
 
 class FakeGitHub:
@@ -107,6 +158,17 @@ def test_ci_action_required_is_unverified():
         "https://example/pr/1436",
     )
     assert rows[0].supports == Status.UNVERIFIED
+
+
+def test_contradictory_test_errors_override_all_pass_claim():
+    claim = Claim("1432-01", 1432, "224 tests pass", "tests", "224 tests pass")
+    rows = check_policy(
+        claim,
+        False,
+        "https://example/pr/1432",
+        "224 passed and 131 errored.",
+    )
+    assert rows[0].supports == Status.CONTRADICTED
 
 
 def test_gap_policy_contradicts_e2e():
@@ -198,10 +260,31 @@ def test_ledger_no_evidence_forces_unverified():
     assert rows[0].evidence_links == []
 
 
+def test_ledger_exposes_challenge_and_rebuttal():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    rows = merge(
+        [claim],
+        [],
+        {
+            claim.id: {
+                "status": "UNVERIFIED",
+                "rationale": "Not enough live evidence",
+                "judged_by": "red-examiner",
+            }
+        },
+        {claim.id: {"reason": "Missing acceptance criteria", "rebutted": False}},
+        {claim.id: {"rebuttal": "Issue does not require live access"}},
+    )
+    assert rows[0].challenged is True
+    assert rows[0].challenge_reason == "Missing acceptance criteria"
+    assert rows[0].rebuttal == "Issue does not require live access"
+
+
 def test_gate_rejects_upstream_posting(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
     write_approval(tmp_path, "d", "maintainer")
     ok, reason = gate_open(tmp_path, "d", True)
     assert not ok
@@ -241,7 +324,7 @@ def test_generate_drafts(tmp_path):
 
 def test_scanner_detects_new_then_unchanged_only(tmp_path):
     class FakeGitHub:
-        def list_prs(self):
+        def list_prs(self, state="all", stop_before="", per_page=100):
             return [
                 {
                     "number": 1432,
@@ -292,6 +375,16 @@ def test_strict_ledger_validation_rejects_bad_status(tmp_path):
         assert "invalid status" in str(exc)
     else:
         raise AssertionError("invalid verdict status should fail")
+
+
+def test_agent_json_accepts_utf8_bom(tmp_path):
+    (tmp_path / "verdicts.json").write_text(
+        "\ufeff"
+        + '{"1436-02":{"status":"UNVERIFIED","rationale":"uncertain","judged_by":"Examiner"}}',
+        encoding="utf-8",
+    )
+    verdicts, _, _ = validate_agent_inputs(tmp_path, {"1436-02"})
+    assert verdicts["1436-02"]["status"] == "UNVERIFIED"
 
 
 def test_strict_ledger_validation_rejects_malformed_json(tmp_path):

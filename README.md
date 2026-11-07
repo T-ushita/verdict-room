@@ -44,6 +44,18 @@ Open `http://127.0.0.1:8787`.
 Offline demo: use `--offline` commands with `fixtures/`. Issue 825 is currently a
 fixture-backed snapshot, not a claim that the recorded GitHub data is live.
 
+For the sandbox live-post gate, use issue
+[#1 in T-ushita/verdict-room-sandbox](https://github.com/T-ushita/verdict-room-sandbox/issues/1)
+as `VERDICT_POST_ISSUE`. Keep `GITHUB_WRITE_TOKEN` out of room prompts and agent
+sessions; enter it only in the trusted terminal session that invokes
+`verdict ruling 825 --live`.
+
+Check local readiness without using or printing a write token:
+
+```powershell
+python scripts/check_live_readiness.py
+```
+
 ## Scheduled PR scanning
 
 The repository includes `.github/workflows/verdict-scan.yml`. It scans hourly and
@@ -67,4 +79,4 @@ See `docs/BUILD_PLAN.md`. Anything mocked is listed under "Honest limitations" b
 - Claim extraction is regex-based and heuristic.
 - Check-run and PR-file fixtures may be missing; unavailable evidence is reported as `UNVERIFIED`.
 - Switch room communication has not been verified by this CLI.
-- GitHub live posting remains guarded and is not implemented yet.
+- GitHub live posting is implemented but remains unverified against a sandbox verdict-log issue.

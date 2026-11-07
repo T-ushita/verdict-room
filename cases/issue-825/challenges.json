@@ -1,0 +1,7 @@
+{
+  "1436-02": {
+    "claim_id": "1436-02",
+    "reason": "The PR body says it lacks a working live connection and that non-expiring keys are rejected, which weighs against the inferred working-integration claim. However, the available issue text only asks for a PagerDuty connector with catalog, broker, and regional endpoint coverage; it does not state that live connection or agent grant is required. Please provide the issue's complete acceptance criteria and implementation evidence showing that the stated gaps block one of those required capabilities before treating the inference as conclusively contradicted.",
+    "rebutted": false
+  }
+}

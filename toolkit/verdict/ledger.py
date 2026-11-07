@@ -15,7 +15,7 @@ def load_agent_json(
     if not path.exists():
         return {}
     try:
-        payload = json.loads(path.read_text())
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
         raise ValueError(
             f"{filename}: malformed JSON at line {exc.lineno}, column {exc.colno}"
@@ -113,6 +113,9 @@ def merge(
                 v.get("rationale", ""),
                 links,
                 v.get("judged_by", "code"),
+                challenged=bool(ch),
+                challenge_reason=ch.get("reason", "") if ch else "",
+                rebuttal=rebuttal.get("rebuttal", "") if rebuttal else "",
             )
         )
     return rows

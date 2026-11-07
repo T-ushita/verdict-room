@@ -1,13 +1,55 @@
 [
   {
+    "id": "1060-01",
+    "pr": 1060,
+    "text": "ruff check` clean",
+    "kind": "lint",
+    "source_quote": "ruff check` clean"
+  },
+  {
+    "id": "1060-02",
+    "pr": 1060,
+    "text": "Least access: PagerDuty has no read-only user key, so `tools: pass_through` (as the loader requires for `api_key`) and the description and skill say plainly that it can write",
+    "kind": "access_level",
+    "source_quote": "Least access: PagerDuty has no read-only user key, so `tools: pass_through` (as the loader requires for `api_key`) and the description and skill say plainly that it can write"
+  },
+  {
+    "id": "1060-03",
+    "pr": 1060,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1391-01",
+    "pr": 1391,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1398-01",
+    "pr": 1398,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
     "id": "1432-01",
     "pr": 1432,
-    "text": "Ran 224 connection tests, all pass",
-    "kind": "tests",
-    "source_quote": "Ran 224 connection tests, all pass"
+    "text": "just check` (ruff format + lint) and `just typecheck` (mypy) are clean",
+    "kind": "lint",
+    "source_quote": "just check` (ruff format + lint) and `just typecheck` (mypy) are clean"
   },
   {
     "id": "1432-02",
+    "pr": 1432,
+    "text": "There's no read-only mode on the server side, so the skill is careful about writes, and the PR doesn't claim one",
+    "kind": "access_level",
+    "source_quote": "There's no read-only mode on the server side, so the skill is careful about writes, and the PR doesn't claim one"
+  },
+  {
+    "id": "1432-03",
     "pr": 1432,
     "text": "This PR delivers a working integration for the linked issue.",
     "kind": "e2e",
@@ -16,15 +58,113 @@
   {
     "id": "1436-01",
     "pr": 1436,
-    "text": "Ran 424 connector/broker/catalog tests passed",
-    "kind": "tests",
-    "source_quote": "Ran 424 connector/broker/catalog tests passed"
+    "text": "| Ruff and Mypy | Passed |",
+    "kind": "lint",
+    "source_quote": "| Ruff and Mypy | Passed |"
   },
   {
     "id": "1436-02",
     "pr": 1436,
+    "text": "| Console lint, typecheck and build | Passed |",
+    "kind": "lint",
+    "source_quote": "| Console lint, typecheck and build | Passed |"
+  },
+  {
+    "id": "1436-03",
+    "pr": 1436,
+    "text": "Dashed arrows describe the intended integration, not a completed end-to-end connection",
+    "kind": "e2e",
+    "source_quote": "Dashed arrows describe the intended integration, not a completed end-to-end connection"
+  },
+  {
+    "id": "1436-04",
+    "pr": 1436,
+    "text": "A separately reviewed execution strategy is required before the issue's end-to-end acceptance criteria can be fulfilled",
+    "kind": "e2e",
+    "source_quote": "A separately reviewed execution strategy is required before the issue's end-to-end acceptance criteria can be fulfilled"
+  },
+  {
+    "id": "1436-05",
+    "pr": 1436,
+    "text": "Self-disclosed gap: not yet",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: not yet"
+  },
+  {
+    "id": "1436-06",
+    "pr": 1436,
+    "text": "Self-disclosed gap: follow-up",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: follow-up"
+  },
+  {
+    "id": "1436-07",
+    "pr": 1436,
+    "text": "Self-disclosed gap: blocked",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: blocked"
+  },
+  {
+    "id": "1436-08",
+    "pr": 1436,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  },
+  {
+    "id": "1436-09",
+    "pr": 1436,
+    "text": "Self-disclosed gap: key_never_expires",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: key_never_expires"
+  },
+  {
+    "id": "1611-01",
+    "pr": 1611,
+    "text": "pytest core/tests/switch_core/connections core/tests/switch_core/gateway`: all pass except `test_tenant_api_routes::",
+    "kind": "tests",
+    "source_quote": "pytest core/tests/switch_core/connections core/tests/switch_core/gateway`: all pass except `test_tenant_api_routes::"
+  },
+  {
+    "id": "1611-02",
+    "pr": 1611,
+    "text": "ts` (every catalog slug has a logo and every logo a NOTICE row), and the `connector-apps`, `connectors` and `admin` tests all pass",
+    "kind": "tests",
+    "source_quote": "ts` (every catalog slug has a logo and every logo a NOTICE row), and the `connector-apps`, `connectors` and `admin` tests all pass"
+  },
+  {
+    "id": "1611-03",
+    "pr": 1611,
+    "text": "Real read-only level",
+    "kind": "access_level",
+    "source_quote": "Real read-only level"
+  },
+  {
+    "id": "1611-04",
+    "pr": 1611,
+    "text": "Scoped OAuth gives per-resource scopes, so there is a genuine read-only connection as well as read-write",
+    "kind": "access_level",
+    "source_quote": "Scoped OAuth gives per-resource scopes, so there is a genuine read-only connection as well as read-write"
+  },
+  {
+    "id": "1611-05",
+    "pr": 1611,
+    "text": "Per-resource scopes with a genuine read-only level",
+    "kind": "access_level",
+    "source_quote": "Per-resource scopes with a genuine read-only level"
+  },
+  {
+    "id": "1611-06",
+    "pr": 1611,
     "text": "This PR delivers a working integration for the linked issue.",
     "kind": "e2e",
     "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1611-07",
+    "pr": 1611,
+    "text": "Self-disclosed gap: key_never_expires",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: key_never_expires"
   }
 ]

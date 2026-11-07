@@ -1,0 +1,22 @@
+﻿{
+  "1432-01": {
+    "status": "UNVERIFIED",
+    "rationale": "The PR reports 224 passing connection tests, but no check runs or test files are recorded in the available offline evidence.",
+    "judged_by": "red-examiner"
+  },
+  "1432-02": {
+    "status": "UNVERIFIED",
+    "rationale": "The issue link does not establish that the integration works; the offline fixture contains no diff or end-to-end evidence, and 131 Postgres-backed tests reportedly errored because Docker was unavailable.",
+    "judged_by": "red-examiner"
+  },
+  "1436-01": {
+    "status": "UNVERIFIED",
+    "rationale": "The PR reports 424 passing connector, broker, and catalog tests, but no check runs or test files are recorded to verify that count.",
+    "judged_by": "red-examiner"
+  },
+  "1436-02": {
+    "status": "CONTRADICTED",
+    "rationale": "The PR explicitly says it does not yet provide a working live connection: the broker rejects non-expiring API keys and no agent grant is available.",
+    "judged_by": "red-examiner"
+  }
+}

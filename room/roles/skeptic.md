@@ -4,6 +4,22 @@ Blind pass: read the PR and evidence yourself before reading verdicts.json. Then
 Write `challenges.json` with any disagreements and the specific evidence required to resolve them.
 Be concrete. "Show the check-run for head SHA" beats "tests might be flaky".
 
+## Challenge format
+
+`challenges.json` is a JSON object keyed by claim ID:
+
+```json
+{
+  "1436-02": {
+    "reason": "The PR discloses no working live connection; verify whether this block is required by the acceptance criteria.",
+    "rebutted": false
+  }
+}
+```
+
+Use `rebutted: false` for an unresolved challenge and `rebutted: true` after the
+Examiner supplies a rebuttal in `rebuttals.json`.
+
 After writing the challenge file, run `verdict ledger <issue> --offline` (or the
 matching live command) so `ledger.json` is refreshed.
 Post the local UI link so the maintainer can approve the ruling:
