@@ -1,135 +1,436 @@
 [
   {
-    "claim_id": "1432-01",
+    "claim_id": "1060-01",
     "check": "ci",
-    "result": "Check runs unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1432/checks",
-    "supports": "UNVERIFIED"
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/checks",
+    "supports": "VERIFIED"
   },
   {
-    "claim_id": "1432-01",
+    "claim_id": "1060-01",
     "check": "diff",
-    "result": "PR file list unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "result": "Layers touched: core, gateway, console, tests; test files: 3; added def test_ lines: 1",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
     "supports": "UNVERIFIED"
   },
   {
-    "claim_id": "1432-01",
+    "claim_id": "1060-01",
     "check": "tests",
-    "result": "Test files unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "result": "Test files changed: core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
     "supports": "UNVERIFIED"
   },
   {
-    "claim_id": "1432-02",
+    "claim_id": "1060-02",
     "check": "diff",
-    "result": "PR file list unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "result": "Layers touched: core, gateway, console, tests; test files: 3; added def test_ lines: 1",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
     "supports": "UNVERIFIED"
   },
   {
-    "claim_id": "1432-02",
+    "claim_id": "1060-02",
     "check": "tests",
-    "result": "Test files unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "result": "Test files changed: core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
     "supports": "UNVERIFIED"
   },
   {
-    "claim_id": "1436-01",
-    "check": "ci",
-    "result": "Check runs unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/checks",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-01",
-    "check": "diff",
-    "result": "PR file list unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-01",
-    "check": "tests",
-    "result": "Test files unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-02",
-    "check": "diff",
-    "result": "PR file list unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-02",
-    "check": "tests",
-    "result": "Test files unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-02",
+    "claim_id": "1060-02",
     "check": "policy",
-    "result": "PR body contains gap language: not yet, rejects, key_never_expires, no agent grant",
+    "result": "PR is described as read-only but also mentions write-capable operations",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1060-03",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, tests; test files: 3; added def test_ lines: 1; no integration/e2e test path detected",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1060-03",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1060/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1391-01",
+    "check": "diff",
+    "result": "Layers touched: core, console, tests; test files: 1; added def test_ lines: 1; no integration/e2e test path detected",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1391/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1391-01",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/test_loader.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1391/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1398-01",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, tests; test files: 4; added def test_ lines: 1; no integration/e2e test path detected",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1398/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1398-01",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1398/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-01",
+    "check": "ci",
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/checks",
+    "supports": "VERIFIED"
+  },
+  {
+    "claim_id": "1432-01",
+    "check": "diff",
+    "result": "Layers touched: core, console, docs, tests; test files: 3; added def test_ lines: 3",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-01",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_api_key.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-02",
+    "check": "diff",
+    "result": "Layers touched: core, console, docs, tests; test files: 3; added def test_ lines: 3",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-02",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_api_key.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-02",
+    "check": "policy",
+    "result": "PR is described as read-only but also mentions write-capable operations",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1432-03",
+    "check": "diff",
+    "result": "Layers touched: core, console, docs, tests; test files: 3; added def test_ lines: 3; no integration/e2e test path detected",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1432-03",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_api_key.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1432/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-01",
+    "check": "ci",
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/checks",
+    "supports": "VERIFIED"
+  },
+  {
+    "claim_id": "1436-01",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-01",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-02",
+    "check": "ci",
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/checks",
+    "supports": "VERIFIED"
+  },
+  {
+    "claim_id": "1436-02",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-02",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-03",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10; no integration/e2e test path detected",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-03",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-03",
+    "check": "policy",
+    "result": "PR body contains gap language: not yet, follow-up, blocked, rejects, key_never_expires",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436",
     "supports": "CONTRADICTED"
   },
   {
-    "claim_id": "1436-03",
-    "check": "diff",
-    "result": "PR file list unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
-    "claim_id": "1436-03",
-    "check": "tests",
-    "result": "Test files unavailable or not recorded",
-    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
-    "supports": "UNVERIFIED"
-  },
-  {
     "claim_id": "1436-04",
     "check": "diff",
-    "result": "PR file list unavailable or not recorded",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10; no integration/e2e test path detected",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
     "supports": "UNVERIFIED"
   },
   {
     "claim_id": "1436-04",
     "check": "tests",
-    "result": "Test files unavailable or not recorded",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
     "supports": "UNVERIFIED"
   },
   {
+    "claim_id": "1436-04",
+    "check": "policy",
+    "result": "PR body contains gap language: not yet, follow-up, blocked, rejects, key_never_expires",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436",
+    "supports": "CONTRADICTED"
+  },
+  {
     "claim_id": "1436-05",
     "check": "diff",
-    "result": "PR file list unavailable or not recorded",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
     "supports": "UNVERIFIED"
   },
   {
     "claim_id": "1436-05",
     "check": "tests",
-    "result": "Test files unavailable or not recorded",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
     "supports": "UNVERIFIED"
   },
   {
     "claim_id": "1436-06",
     "check": "diff",
-    "result": "PR file list unavailable or not recorded",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
     "supports": "UNVERIFIED"
   },
   {
     "claim_id": "1436-06",
     "check": "tests",
-    "result": "Test files unavailable or not recorded",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-07",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-07",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-08",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-08",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-09",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 6; added def test_ lines: 10",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-09",
+    "check": "tests",
+    "result": "Test files changed: core/tests/switch_core/connections/adapters/test_pagerduty.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/connections/test_registry.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_pagerduty.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-01",
+    "check": "ci",
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/checks",
+    "supports": "VERIFIED"
+  },
+  {
+    "claim_id": "1611-01",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-01",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-02",
+    "check": "ci",
+    "result": "All check runs succeeded for head SHA",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/checks",
+    "supports": "VERIFIED"
+  },
+  {
+    "claim_id": "1611-02",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-02",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-03",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-03",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-03",
+    "check": "policy",
+    "result": "PR is described as read-only but also mentions write-capable operations",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1611-04",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-04",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-04",
+    "check": "policy",
+    "result": "PR is described as read-only but also mentions write-capable operations",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1611-05",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-05",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-05",
+    "check": "policy",
+    "result": "PR is described as read-only but also mentions write-capable operations",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1611-06",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5; integration/e2e test path present",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-06",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-06",
+    "check": "policy",
+    "result": "PR body contains gap language: key_never_expires",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611",
+    "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1611-07",
+    "check": "diff",
+    "result": "Layers touched: core, gateway, console, docs, tests; test files: 7; added def test_ lines: 5",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1611-07",
+    "check": "tests",
+    "result": "Test files changed: console/apps/switch-console-desktop/src/renderer/tests/connector-apps.test.ts, core/tests/switch_core/connections/adapters/test_oauth.py, core/tests/switch_core/connections/test_app_credentials.py, core/tests/switch_core/connections/test_loader.py, core/tests/switch_core/gateway/test_connection_catalog.py, core/tests/switch_core/gateway/test_connector_apps.py, core/tests/switch_core/gateway/test_workspace_services.py",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1611/files",
     "supports": "UNVERIFIED"
   }
 ]

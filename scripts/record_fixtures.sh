@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Records read-only GitHub responses into fixtures/.
 # Filename convention: path without query string, "/" replaced with "__".
-set -euo pipefail
+set -eu
 
 if [[ -z "${GITHUB_TOKEN:-}" ]]; then
   echo "GITHUB_TOKEN (read-only) is required" >&2

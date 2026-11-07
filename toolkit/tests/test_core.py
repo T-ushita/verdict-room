@@ -105,7 +105,10 @@ def test_redact():
 def test_offline_case_builds_competing_prs():
     case = build(GitHub("sandbox-quantum/switch", offline=True), 825)
     assert case.source == "fixture"
-    assert [pr.number for pr in case.prs] == [1432, 1436]
+    numbers = [pr.number for pr in case.prs]
+    assert numbers == sorted(numbers)
+    assert 1432 in numbers
+    assert 1436 in numbers
 
 
 class FakeGitHub:

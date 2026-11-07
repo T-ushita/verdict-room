@@ -29,7 +29,7 @@ class GitHub:
             fixture = FIXTURES / (base.strip("/").replace("/", "__") + ".json")
             if not fixture.exists():
                 raise FileNotFoundError(f"Missing offline fixture: {fixture.relative_to(FIXTURES)}")
-            return json.loads(fixture.read_text())
+            return json.loads(fixture.read_text(encoding="utf-8-sig"))
 
         request = urllib.request.Request(
             API + path, headers={"Accept": "application/vnd.github+json"}

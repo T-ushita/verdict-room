@@ -67,4 +67,4 @@ See `docs/BUILD_PLAN.md`. Anything mocked is listed under "Honest limitations" b
 - Claim extraction is regex-based and heuristic.
 - Check-run and PR-file fixtures may be missing; unavailable evidence is reported as `UNVERIFIED`.
 - Switch room communication has not been verified by this CLI.
-- GitHub live posting remains guarded and is not implemented yet.
+- GitHub live posting is implemented but remains unverified against a sandbox verdict-log issue.

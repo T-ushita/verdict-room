@@ -1,0 +1,156 @@
+[
+  {
+    "id": "1098-01",
+    "pr": 1098,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1098-02",
+    "pr": 1098,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  },
+  {
+    "id": "1219-01",
+    "pr": 1219,
+    "text": "Result: all passed",
+    "kind": "tests",
+    "source_quote": "Result: all passed"
+  },
+  {
+    "id": "1219-02",
+    "pr": 1219,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1219-03",
+    "pr": 1219,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  },
+  {
+    "id": "1348-01",
+    "pr": 1348,
+    "text": "uv run ruff check` & `ruff format --check` passed",
+    "kind": "lint",
+    "source_quote": "uv run ruff check` & `ruff format --check` passed"
+  },
+  {
+    "id": "1348-02",
+    "pr": 1348,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1392-01",
+    "pr": 1392,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1434-01",
+    "pr": 1434,
+    "text": "| Python lint and formatting | Passed |",
+    "kind": "lint",
+    "source_quote": "| Python lint and formatting | Passed |"
+  },
+  {
+    "id": "1434-02",
+    "pr": 1434,
+    "text": "| Mypy | Passed |",
+    "kind": "lint",
+    "source_quote": "| Mypy | Passed |"
+  },
+  {
+    "id": "1434-03",
+    "pr": 1434,
+    "text": "Configured an honestly described write-capable access level rather than claiming unverified read-only restrictions",
+    "kind": "access_level",
+    "source_quote": "Configured an honestly described write-capable access level rather than claiming unverified read-only restrictions"
+  },
+  {
+    "id": "1434-04",
+    "pr": 1434,
+    "text": "Requested end-to-end demonstration video",
+    "kind": "e2e",
+    "source_quote": "Requested end-to-end demonstration video"
+  },
+  {
+    "id": "1434-05",
+    "pr": 1434,
+    "text": "Self-disclosed gap: remain a draft",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: remain a draft"
+  },
+  {
+    "id": "1434-06",
+    "pr": 1434,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  },
+  {
+    "id": "1471-01",
+    "pr": 1471,
+    "text": "Administrative deletion capability (`event:admin`) is explicitly omitted to enforce least privilege",
+    "kind": "access_level",
+    "source_quote": "Administrative deletion capability (`event:admin`) is explicitly omitted to enforce least privilege"
+  },
+  {
+    "id": "1471-02",
+    "pr": 1471,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1558-01",
+    "pr": 1558,
+    "text": "Sentry's consent screen asks which skills to allow: Inspect Issues & Events (48 read-only tools), Seer (18), Triage Issues (26), Manage Projects & Teams (25)",
+    "kind": "access_level",
+    "source_quote": "Sentry's consent screen asks which skills to allow: Inspect Issues & Events (48 read-only tools), Seer (18), Triage Issues (26), Manage Projects & Teams (25)"
+  },
+  {
+    "id": "1558-02",
+    "pr": 1558,
+    "text": "com/sandbox-quantum/switch/issues/820#issuecomment-6596711549) asks for a vendor whose scopes cannot make a connection read-only, Sentry is offered at **one level, read and write**, labelled honestly",
+    "kind": "access_level",
+    "source_quote": "com/sandbox-quantum/switch/issues/820#issuecomment-6596711549) asks for a vendor whose scopes cannot make a connection read-only, Sentry is offered at **one level, read and write**, labelled honestly"
+  },
+  {
+    "id": "1558-03",
+    "pr": 1558,
+    "text": "Nothing is ever labelled read-only",
+    "kind": "access_level",
+    "source_quote": "Nothing is ever labelled read-only"
+  },
+  {
+    "id": "1558-04",
+    "pr": 1558,
+    "text": "The token works with the MCP server alone",
+    "kind": "e2e",
+    "source_quote": "The token works with the MCP server alone"
+  },
+  {
+    "id": "1558-05",
+    "pr": 1558,
+    "text": "This PR delivers a working integration for the linked issue.",
+    "kind": "e2e",
+    "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1558-06",
+    "pr": 1558,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  }
+]
