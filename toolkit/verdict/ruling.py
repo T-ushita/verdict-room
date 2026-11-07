@@ -18,7 +18,12 @@ def write_approval(case_dir: Path, draft: str, approved_by: str) -> Path:
     return p
 
 
-def gate_open(case_dir: Path, draft: str, live_flag: bool) -> tuple[bool, str]:
+def gate_open(
+    case_dir: Path,
+    draft: str,
+    live_flag: bool,
+    target_repo: str | None = None,
+) -> tuple[bool, str]:
     if os.environ.get("VERDICT_LIVE_POST") != "1":
         return False, "VERDICT_LIVE_POST is not 1"
     if not live_flag:
@@ -28,6 +33,17 @@ def gate_open(case_dir: Path, draft: str, live_flag: bool) -> tuple[bool, str]:
         return False, "no approval.json"
     if json.loads(a.read_text()).get("draft_hash") != draft_hash(draft):
         return False, "draft changed after approval"
+    upstream_repo = os.environ.get("VERDICT_REPO", "")
+    post_repo = os.environ.get("VERDICT_POST_REPO", "")
+    if not post_repo:
+        return False, "VERDICT_POST_REPO is not set"
+    if not upstream_repo:
+        return False, "VERDICT_REPO is not set"
+    target_repo = target_repo or post_repo
+    if target_repo != post_repo:
+        return False, "target repo does not equal VERDICT_POST_REPO"
+    if post_repo == upstream_repo and os.environ.get("VERDICT_ALLOW_UPSTREAM_POST") != "1":
+        return False, "target repo matches upstream; explicit override is required"
     return True, "ok"
 
 

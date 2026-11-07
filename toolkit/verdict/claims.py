@@ -10,12 +10,24 @@ _RULES = [
     (
         "tests",
         re.compile(
+            r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|connection\s+|connector\/broker\/catalog\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:pass(?:ed)?|green|errored)[^.\n]*"
+        ),
+    ),
+    (
+        "tests",
+        re.compile(
             r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:pass|green)[^.\n]*"
         ),
     ),
     (
         "tests",
         re.compile(r"(?i)[^.\n]*\b(?:all|tests?)\s+(?:pass|passed|passing|green)\b[^.\n]*"),
+    ),
+    (
+        "tests",
+        re.compile(
+            r"(?i)[^.\n]*\b\d+\s+(?:focused\s+|connection\s+|connector\/broker\/catalog\s+|python\s+|core\s+)?tests?\b[^.\n]*(?:fail(?:ed)?|errored|error(?:s)?)[^.\n]*"
+        ),
     ),
     (
         "lint",
@@ -28,6 +40,12 @@ _RULES = [
     (
         "e2e",
         re.compile(r"(?i)[^.\n]*\b(?:end-to-end|e2e|works with)\b[^.\n]*"),
+    ),
+    (
+        "e2e",
+        re.compile(
+            r"(?i)[^.\n]*\b(?:identity|connection|authentication)\s+(?:was\s+)?verified\s+via\b[^.\n]*"
+        ),
     ),
 ]
 
