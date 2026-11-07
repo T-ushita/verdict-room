@@ -1,3 +1,5 @@
+import re
+
 from ..claims import gap_hints
 from ..schemas import Claim, Evidence, Status
 
@@ -11,6 +13,19 @@ def check_policy(
     out: list[Evidence] = []
     body = pr_body.lower()
     hits = gap_hints(pr_body)
+    if claim.kind == "tests":
+        passed = re.search(r"(?i)\b(\d+)\s+pass(?:ed)?\b", pr_body)
+        errored = re.search(r"(?i)\b(\d+)\s+errored\b", pr_body)
+        if passed and errored and int(errored.group(1)) > 0:
+            out.append(
+                Evidence(
+                    claim.id,
+                    "policy",
+                    f"Contradictory test summary: {passed.group(1)} passed and {errored.group(1)} errored",
+                    pr_url,
+                    Status.CONTRADICTED,
+                )
+            )
     if claim.kind == "e2e" and hits:
         out.append(
             Evidence(

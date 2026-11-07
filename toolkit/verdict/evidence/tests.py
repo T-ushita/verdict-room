@@ -23,7 +23,7 @@ def check_test_files(
         if item.get("filename")
         and ("/test" in item["filename"].lower() or item["filename"].lower().startswith("test"))
     ]
-    status = Status.VERIFIED if test_files and claim.kind in {"tests", "e2e"} else Status.UNVERIFIED
+    status = Status.UNVERIFIED
     result = (
         f"Test files changed: {', '.join(test_files)}" if test_files else "No test files changed"
     )

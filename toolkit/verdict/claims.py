@@ -104,4 +104,15 @@ def extract(pr_number: int, body: str) -> list[Claim]:
                 source_quote="Implicit claim from PR issue linkage",
             )
         )
+    hints = gap_hints(body)
+    for hint in hints:
+        out.append(
+            Claim(
+                id=f"{pr_number}-{len(out) + 1:02d}",
+                pr=pr_number,
+                text=f"Self-disclosed gap: {hint}",
+                kind="self_disclosed_gap",
+                source_quote=f"PR body gap hint: {hint}",
+            )
+        )
     return out

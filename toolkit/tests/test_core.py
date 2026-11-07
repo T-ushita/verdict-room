@@ -43,7 +43,7 @@ def test_claims_extract_gap_and_tests():
     body = "Ran 424 tests, all pass.\nThis does not yet provide a working live connection."
     kinds = {c.kind for c in extract(1436, body)}
     assert "tests" in kinds
-    assert "self_disclosed_gap" not in kinds
+    assert "self_disclosed_gap" in kinds
     assert "e2e" not in kinds
 
 
@@ -56,7 +56,7 @@ def test_implicit_e2e_and_gap_hints():
     )
     claims = extract(1436, body)
     assert any(c.kind == "e2e" and c.source_quote.startswith("Implicit") for c in claims)
-    assert not any(c.kind == "self_disclosed_gap" for c in claims)
+    assert any(c.kind == "self_disclosed_gap" for c in claims)
     hints = gap_hints(body)
     assert "rejects" in hints
     assert "key_never_expires" in hints
@@ -140,6 +140,17 @@ def test_ci_action_required_is_unverified():
         "https://example/pr/1436",
     )
     assert rows[0].supports == Status.UNVERIFIED
+
+
+def test_contradictory_test_errors_override_all_pass_claim():
+    claim = Claim("1432-01", 1432, "224 tests pass", "tests", "224 tests pass")
+    rows = check_policy(
+        claim,
+        False,
+        "https://example/pr/1432",
+        "224 passed and 131 errored.",
+    )
+    assert rows[0].supports == Status.CONTRADICTED
 
 
 def test_gap_policy_contradicts_e2e():
