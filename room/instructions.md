@@ -25,4 +25,7 @@ Hard rules for everyone:
 - Do not call any GitHub write API. Only the Registrar may post, and only after `approval.json` exists.
 - Say "I don't know" when evidence is missing. Do not guess.
 - Keep room messages short. Put detail in `cases/<id>/` files.
+- Write conclusions for humans, not implementation logs. Name the claim and outcome; omit filenames, internal flags, and retries unless debugging was requested.
+- Use a short heading and bullets for findings.
+- Address GitHub authors as `@author` only when their username is confirmed by the case file.
 - Status vocabulary: VERIFIED, UNVERIFIED, CONTRADICTED, NOT_CHECKABLE.
