@@ -139,6 +139,39 @@ def cmd_serve(a):
         server.server_close()
 
 
+def cmd_scan(a):
+    from .github import GitHub
+    from .scanner import scan
+
+    gh = GitHub(a.repo, offline=False)
+    summary = scan(gh, ROOT, a.repo)
+    print(
+        f"Scanned {len(summary['changed']) + len(summary['unchanged'])} PRs: "
+        f"{len(summary['changed'])} changed, {len(summary['unchanged'])} unchanged"
+    )
+    for item in summary["changed"]:
+        print(
+            f"{item['change']} #{item['number']} {item['status']} "
+            f"issues={item['issues']} {item['title']}"
+        )
+
+
+def cmd_ruling(a):
+    from .ruling import generate_drafts, post
+
+    d = _case_dir(a.issue, offline=True if getattr(a, "offline", False) else None)
+    generated = generate_drafts(d)
+    aggregate = (d / "ruling.draft.md").read_text(encoding="utf-8")
+    if a.draft:
+        print("DRY-RUN ruling drafts written:")
+        print(f"- {d / 'ruling.draft.md'}")
+        for pr, text in generated.items():
+            print(f"- PR/issue {pr}: {len(text)} chars")
+        print(aggregate)
+        return
+    print(post(d, aggregate, a.live))
+
+
 def cmd_todo(name):
     def f(a):
         raise SystemExit(f"`verdict {name}` not implemented yet. See docs/BUILD_PLAN.md")
@@ -168,10 +201,15 @@ def main():
     serve = sub.add_parser("serve")
     serve.add_argument("--port", type=int, default=8787)
     serve.set_defaults(fn=cmd_serve)
-    for name in ("ruling",):  # TODO phase 7
-        s = sub.add_parser(name)
-        s.add_argument("issue", type=int, nargs="?")
-        s.set_defaults(fn=cmd_todo(name))
+    scan = sub.add_parser("scan")
+    scan.add_argument("--repo", default=os.environ.get("VERDICT_REPO", "sandbox-quantum/switch"))
+    scan.set_defaults(fn=cmd_scan)
+    ruling = sub.add_parser("ruling")
+    ruling.add_argument("issue", type=int, nargs="?")
+    ruling.add_argument("--draft", action="store_true")
+    ruling.add_argument("--live", action="store_true")
+    ruling.add_argument("--offline", action="store_true")
+    ruling.set_defaults(fn=cmd_ruling)
     a = ap.parse_args()
     a.fn(a)
 

@@ -1,0 +1,58 @@
+name: Verdict Room scheduled PR scan
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore PR state
+        uses: actions/cache@v4
+        with:
+          path: cases/pr-state.json
+          key: verdict-pr-state-${{ github.run_id }}
+          restore-keys: |
+            verdict-pr-state-
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Scan changed PRs
+        env:
+          VERDICT_REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd toolkit
+          python -m verdict.cli scan --repo "$VERDICT_REPO"
+          {
+            echo "### Verdict Room scan summary"
+            python - <<'PY'
+import json
+from pathlib import Path
+summary = json.loads(Path("../cases/scan-summary.json").read_text())
+print(f"- Changed/new PRs: {summary['changed_count']}")
+print(f"- Unchanged PRs: {summary['unchanged_count']}")
+print(f"- Affected issues: {summary['affected_issues']}")
+for item in summary["changed"]:
+    print(f"- PR #{item['number']} [{item['status']}]: {item['title']}")
+PY
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save PR state
+        uses: actions/cache@v4
+        with:
+          path: cases/pr-state.json
+          key: verdict-pr-state-${{ github.run_id }}

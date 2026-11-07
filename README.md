@@ -44,6 +44,21 @@ Open `http://127.0.0.1:8787`.
 Offline demo: use `--offline` commands with `fixtures/`. Issue 825 is currently a
 fixture-backed snapshot, not a claim that the recorded GitHub data is live.
 
+## Scheduled PR scanning
+
+The repository includes `.github/workflows/verdict-scan.yml`. It scans hourly and
+on manual dispatch, stores a fingerprint for every PR, and reports only new or
+changed PRs.
+
+The state file is `cases/pr-state.json`. A PR is rescored only when its head SHA,
+updated time, open/closed/merged state, draft state, title, or body changes.
+Unchanged, merged, and closed PRs are recorded without rerunning claim or evidence
+checks. The workflow scan summary is written to the GitHub Actions run summary.
+
+Switch room creation and agent notification are not automatic yet. The scheduled
+job reports detected cases and changed PRs; a maintainer or future Switch
+automation can address `@yellow-clerk case <issue>`.
+
 ## Status
 See `docs/BUILD_PLAN.md`. Anything mocked is listed under "Honest limitations" below.
 

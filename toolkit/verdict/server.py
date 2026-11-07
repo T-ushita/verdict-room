@@ -167,6 +167,13 @@ class Handler(BaseHTTPRequestHandler):
                 path.stem: clean_text(path.read_text(encoding="utf-8"))
                 for path in drafts_dir.glob("*.md")
             }
+        approvals = {}
+        approvals_dir = directory / "approvals"
+        if approvals_dir.exists():
+            approvals = {
+                path.stem: json.loads(path.read_text(encoding="utf-8"))
+                for path in approvals_dir.glob("*.json")
+            }
         self._send(
             HTTPStatus.OK,
             {
@@ -174,6 +181,7 @@ class Handler(BaseHTTPRequestHandler):
                 "case": case,
                 "ledger": ledger,
                 "drafts": drafts,
+                "approvals": approvals,
             },
         )
 
@@ -276,9 +284,11 @@ class Handler(BaseHTTPRequestHandler):
         draft = str(payload.get("draft", "")).strip()
         approver = str(payload.get("approver", "")).strip()
         outcome = str(payload.get("outcome", "")).strip()
+        human_comments = clean_text(str(payload.get("human_comments", "")).strip())
         if not isinstance(pr, int) or not draft or not approver or not outcome:
             self._send(
-                HTTPStatus.BAD_REQUEST, {"error": "pr, draft, approver, and outcome required"}
+                HTTPStatus.BAD_REQUEST,
+                {"error": "pr, draft, approver, and outcome required"},
             )
             return
         timestamp = datetime.now(UTC).isoformat()
@@ -289,6 +299,7 @@ class Handler(BaseHTTPRequestHandler):
             "pr": pr,
             "draft_hash": digest,
             "timestamp": timestamp,
+            "human_comments": human_comments,
         }
         approvals = directory / "approvals"
         approvals.mkdir(exist_ok=True)

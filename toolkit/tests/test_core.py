@@ -12,7 +12,8 @@ from verdict.evidence.policy import check_policy
 from verdict.github import GitHub
 from verdict.ledger import merge, validate_agent_inputs
 from verdict.redact import redact
-from verdict.ruling import gate_open, write_approval
+from verdict.ruling import gate_open, generate_drafts, write_approval
+from verdict.scanner import fingerprint, issue_numbers, pr_status, scan
 from verdict.schemas import Claim, Evidence, Status
 
 
@@ -205,6 +206,79 @@ def test_gate_rejects_upstream_posting(tmp_path, monkeypatch):
     ok, reason = gate_open(tmp_path, "d", True)
     assert not ok
     assert "upstream" in reason
+
+
+def test_generate_drafts(tmp_path):
+    (tmp_path / "casefile.json").write_text(
+        json.dumps(
+            {
+                "issue": 825,
+                "issue_title": "Test issue",
+                "prs": [{"number": 1432, "title": "First PR"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    (tmp_path / "ledger.json").write_text(
+        json.dumps(
+            [
+                {
+                    "claim_id": "1432-01",
+                    "pr": 1432,
+                    "claim": "Tests pass",
+                    "status": "UNVERIFIED",
+                    "evidence_links": ["https://example.com/checks"],
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    generated = generate_drafts(tmp_path)
+    assert "1432-01: UNVERIFIED" in generated["1432"]
+    assert "issue #825" in generated["issue"]
+    assert (tmp_path / "ruling.draft.md").exists()
+
+
+def test_scanner_detects_new_then_unchanged_only(tmp_path):
+    class FakeGitHub:
+        def list_prs(self):
+            return [
+                {
+                    "number": 1432,
+                    "title": "Add connection",
+                    "body": "No issue reference",
+                    "state": "open",
+                    "draft": False,
+                    "merged": False,
+                    "updated_at": "2026-11-07T00:00:00Z",
+                    "head": {"sha": "abc123"},
+                    "html_url": "https://example.com/pr/1432",
+                }
+            ]
+
+    first = scan(FakeGitHub(), tmp_path, "sandbox-quantum/switch", now="2026-11-07T01:00:00Z")
+    assert first["changed_count"] == 1
+    assert first["changed"][0]["change"] == "NEW"
+
+    second = scan(FakeGitHub(), tmp_path, "sandbox-quantum/switch", now="2026-11-07T02:00:00Z")
+    assert second["changed_count"] == 0
+    assert second["unchanged_count"] == 1
+
+
+def test_scanner_pr_status_issue_reference_and_fingerprint():
+    pr = {
+        "number": 1436,
+        "title": "Fix connector (#825)",
+        "body": "Closes #825",
+        "state": "open",
+        "draft": True,
+        "merged": False,
+        "updated_at": "2026-11-07T00:00:00Z",
+        "head": {"sha": "def456"},
+    }
+    assert issue_numbers(pr) == [825]
+    assert pr_status(pr) == "BLOCKED_DRAFT"
+    assert fingerprint(pr).startswith("def456|2026-11-07T00:00:00Z")
 
 
 def test_strict_ledger_validation_rejects_bad_status(tmp_path):
