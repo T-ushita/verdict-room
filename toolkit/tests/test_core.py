@@ -12,7 +12,14 @@ from verdict.evidence.policy import check_policy
 from verdict.github import GitHub
 from verdict.ledger import merge, validate_agent_inputs
 from verdict.redact import redact
-from verdict.ruling import gate_open, generate_drafts, write_approval
+from verdict.ruling import (
+    draft_hash,
+    gate_open,
+    generate_drafts,
+    normalize_draft_text,
+    save_pr_approval,
+    write_approval,
+)
 from verdict.scanner import fingerprint, issue_numbers, pr_status, scan
 from verdict.schemas import Claim, Evidence, Status
 
@@ -63,6 +70,27 @@ def test_gate_requires_everything(tmp_path, monkeypatch):
     assert gate_open(tmp_path, "d", True)[0]
     assert not gate_open(tmp_path, "d2", True)[0]  # draft changed
     assert not gate_open(tmp_path, "d", False)[0]  # no --live
+
+
+def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
+    monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+
+    textarea = "Verdict Room summary\r\n\r\nEvidence-ledger findings:\n- 825-01: VERIFIED\n"
+    approval = save_pr_approval(
+        tmp_path,
+        1432,
+        textarea,
+        "maintainer",
+        "approved",
+        "Looks complete.",
+    )
+
+    saved = (tmp_path / "drafts" / "1432.md").read_text(encoding="utf-8")
+    assert normalize_draft_text(saved) == normalize_draft_text(textarea)
+    assert approval["draft_hash"] == draft_hash(saved)
+    assert gate_open(tmp_path, saved, True)[0]
 
 
 def test_redact():

@@ -7,20 +7,28 @@ import json
 import os
 import urllib.error
 import urllib.request
+from datetime import UTC, datetime
 from pathlib import Path
 
 
+def normalize_draft_text(draft: str) -> str:
+    text = str(draft).replace("\r\n", "\n").replace("\r", "\n")
+    text = text.replace("â€”", "-").replace("â€“", "-").replace("—", "-").replace("–", "-")
+    return text.strip()
+
+
 def draft_hash(draft: str) -> str:
-    return hashlib.sha256(draft.encode()).hexdigest()[:12]
+    return hashlib.sha256(normalize_draft_text(draft).encode("utf-8")).hexdigest()[:12]
 
 
 def write_approval(case_dir: Path, draft: str, approved_by: str) -> Path:
+    normalized = normalize_draft_text(draft)
     p = case_dir / "approval.json"
     p.write_text(
         json.dumps(
             {
                 "approved_by": approved_by,
-                "draft_hash": draft_hash(draft),
+                "draft_hash": draft_hash(normalized),
                 "human_comments": "",
             },
             indent=2,
@@ -30,6 +38,43 @@ def write_approval(case_dir: Path, draft: str, approved_by: str) -> Path:
         encoding="utf-8",
     )
     return p
+
+
+def save_pr_approval(
+    case_dir: Path,
+    pr: int,
+    draft: str,
+    approver: str,
+    outcome: str,
+    human_comments: str = "",
+) -> dict:
+    normalized = normalize_draft_text(draft)
+    drafts_dir = case_dir / "drafts"
+    drafts_dir.mkdir(exist_ok=True)
+    draft_path = drafts_dir / f"{pr}.md"
+    draft_path.write_text(normalized + "\n", encoding="utf-8")
+
+    timestamp = datetime.now(UTC).isoformat()
+    approval = {
+        "approver": approver,
+        "outcome": outcome,
+        "pr": pr,
+        "draft_hash": draft_hash(normalized),
+        "timestamp": timestamp,
+        "human_comments": normalize_draft_text(human_comments),
+    }
+    approvals_dir = case_dir / "approvals"
+    approvals_dir.mkdir(exist_ok=True)
+    per_pr = approvals_dir / f"{pr}.json"
+    per_pr.write_text(
+        json.dumps(approval, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    case_dir.joinpath("approval.json").write_text(
+        json.dumps(approval, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    return approval
 
 
 def generate_drafts(case_dir: Path) -> dict[str, str]:
@@ -70,11 +115,10 @@ def generate_drafts(case_dir: Path) -> dict[str, str]:
             lines.append("- No evidence ledger rows available.")
         if human_comments:
             lines.extend(["", "Human maintainer notes:", human_comments])
-        text = "\n".join(lines).strip() + "\n"
+        text = normalize_draft_text("\n".join(lines)) + "\n"
         pr_draft_path = drafts_dir / f"{pr_number}.md"
         if pr_draft_path.exists():
-            text = pr_draft_path.read_text(encoding="utf-8")
-            text = text.replace("â€”", "-").replace("â€“", "-").replace("—", "-").replace("–", "-")
+            text = normalize_draft_text(pr_draft_path.read_text(encoding="utf-8")) + "\n"
         else:
             pr_draft_path.write_text(text, encoding="utf-8")
         generated[str(pr_number)] = text
