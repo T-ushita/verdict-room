@@ -15,7 +15,7 @@ def load_agent_json(
     if not path.exists():
         return {}
     try:
-        payload = json.loads(path.read_text())
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
         raise ValueError(
             f"{filename}: malformed JSON at line {exc.lineno}, column {exc.colno}"

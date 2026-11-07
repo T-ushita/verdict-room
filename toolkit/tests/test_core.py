@@ -359,6 +359,16 @@ def test_strict_ledger_validation_rejects_bad_status(tmp_path):
         raise AssertionError("invalid verdict status should fail")
 
 
+def test_agent_json_accepts_utf8_bom(tmp_path):
+    (tmp_path / "verdicts.json").write_text(
+        "\ufeff"
+        + '{"1436-02":{"status":"UNVERIFIED","rationale":"uncertain","judged_by":"Examiner"}}',
+        encoding="utf-8",
+    )
+    verdicts, _, _ = validate_agent_inputs(tmp_path, {"1436-02"})
+    assert verdicts["1436-02"]["status"] == "UNVERIFIED"
+
+
 def test_strict_ledger_validation_rejects_malformed_json(tmp_path):
     (tmp_path / "challenges.json").write_text("{bad")
     try:

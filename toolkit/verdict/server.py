@@ -177,7 +177,7 @@ class Handler(BaseHTTPRequestHandler):
         for filename in ("verdicts.json", "challenges.json", "rebuttals.json"):
             path = directory / filename
             agent_files[filename] = (
-                json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+                json.loads(path.read_text(encoding="utf-8-sig")) if path.exists() else {}
             )
         self._send(
             HTTPStatus.OK,
