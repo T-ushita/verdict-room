@@ -17,6 +17,7 @@ from verdict.ruling import (
     gate_open,
     generate_drafts,
     normalize_draft_text,
+    save_issue_approval,
     save_pr_approval,
     write_approval,
 )
@@ -65,8 +66,10 @@ def test_gate_requires_everything(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
     assert not gate_open(tmp_path, "d", True)[0]
     write_approval(tmp_path, "d", "maintainer")
+    save_issue_approval(tmp_path, "d", "maintainer", "approved")
     assert gate_open(tmp_path, "d", True)[0]
     assert not gate_open(tmp_path, "d2", True)[0]  # draft changed
     assert not gate_open(tmp_path, "d", False)[0]  # no --live
@@ -76,6 +79,7 @@ def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
 
     textarea = "Verdict Room summary\r\n\r\nEvidence-ledger findings:\n- 825-01: VERIFIED\n"
     approval = save_pr_approval(
@@ -88,6 +92,7 @@ def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
     )
 
     saved = (tmp_path / "drafts" / "1432.md").read_text(encoding="utf-8")
+    save_issue_approval(tmp_path, saved, "maintainer", "approved")
     assert normalize_draft_text(saved) == normalize_draft_text(textarea)
     assert approval["draft_hash"] == draft_hash(saved)
     assert gate_open(tmp_path, saved, True)[0]
@@ -250,6 +255,7 @@ def test_gate_rejects_upstream_posting(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
     write_approval(tmp_path, "d", "maintainer")
     ok, reason = gate_open(tmp_path, "d", True)
     assert not ok
