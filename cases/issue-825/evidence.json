@@ -75,5 +75,61 @@
     "result": "PR body contains gap language: not yet, rejects, key_never_expires, no agent grant",
     "link": "https://github.com/sandbox-quantum/switch/pull/1436",
     "supports": "CONTRADICTED"
+  },
+  {
+    "claim_id": "1436-03",
+    "check": "diff",
+    "result": "PR file list unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-03",
+    "check": "tests",
+    "result": "Test files unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-04",
+    "check": "diff",
+    "result": "PR file list unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-04",
+    "check": "tests",
+    "result": "Test files unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-05",
+    "check": "diff",
+    "result": "PR file list unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-05",
+    "check": "tests",
+    "result": "Test files unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-06",
+    "check": "diff",
+    "result": "PR file list unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
+  },
+  {
+    "claim_id": "1436-06",
+    "check": "tests",
+    "result": "Test files unavailable or not recorded",
+    "link": "https://github.com/sandbox-quantum/switch/pull/1436/files",
+    "supports": "UNVERIFIED"
   }
 ]

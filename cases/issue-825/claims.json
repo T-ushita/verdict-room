@@ -26,5 +26,33 @@
     "text": "This PR delivers a working integration for the linked issue.",
     "kind": "e2e",
     "source_quote": "Implicit claim from PR issue linkage"
+  },
+  {
+    "id": "1436-03",
+    "pr": 1436,
+    "text": "Self-disclosed gap: not yet",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: not yet"
+  },
+  {
+    "id": "1436-04",
+    "pr": 1436,
+    "text": "Self-disclosed gap: rejects",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: rejects"
+  },
+  {
+    "id": "1436-05",
+    "pr": 1436,
+    "text": "Self-disclosed gap: key_never_expires",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: key_never_expires"
+  },
+  {
+    "id": "1436-06",
+    "pr": 1436,
+    "text": "Self-disclosed gap: no agent grant",
+    "kind": "self_disclosed_gap",
+    "source_quote": "PR body gap hint: no agent grant"
   }
 ]

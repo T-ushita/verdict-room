@@ -4,50 +4,122 @@
     "pr": 1432,
     "claim": "Ran 224 connection tests, all pass",
     "status": "UNVERIFIED",
-    "rationale": "",
+    "rationale": "The PR reports 224 passing connection tests, but no check runs or test files are recorded in the available offline evidence.",
     "evidence_links": [
       "https://github.com/sandbox-quantum/switch/pull/1432/checks",
       "https://github.com/sandbox-quantum/switch/pull/1432/files",
       "https://github.com/sandbox-quantum/switch/pull/1432/files"
     ],
-    "judged_by": "code"
+    "judged_by": "red-examiner",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
   },
   {
     "claim_id": "1432-02",
     "pr": 1432,
     "claim": "This PR delivers a working integration for the linked issue.",
     "status": "UNVERIFIED",
-    "rationale": "",
+    "rationale": "The issue link does not establish that the integration works; the offline fixture contains no diff or end-to-end evidence, and 131 Postgres-backed tests reportedly errored because Docker was unavailable.",
     "evidence_links": [
       "https://github.com/sandbox-quantum/switch/pull/1432/files",
       "https://github.com/sandbox-quantum/switch/pull/1432/files"
     ],
-    "judged_by": "code"
+    "judged_by": "red-examiner",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
   },
   {
     "claim_id": "1436-01",
     "pr": 1436,
     "claim": "Ran 424 connector/broker/catalog tests passed",
     "status": "UNVERIFIED",
-    "rationale": "",
+    "rationale": "The PR reports 424 passing connector, broker, and catalog tests, but no check runs or test files are recorded to verify that count.",
     "evidence_links": [
       "https://github.com/sandbox-quantum/switch/pull/1436/checks",
       "https://github.com/sandbox-quantum/switch/pull/1436/files",
       "https://github.com/sandbox-quantum/switch/pull/1436/files"
     ],
-    "judged_by": "code"
+    "judged_by": "red-examiner",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
   },
   {
     "claim_id": "1436-02",
     "pr": 1436,
     "claim": "This PR delivers a working integration for the linked issue.",
     "status": "CONTRADICTED",
-    "rationale": "",
+    "rationale": "The PR explicitly says it does not yet provide a working live connection: the broker rejects non-expiring API keys and no agent grant is available.",
     "evidence_links": [
       "https://github.com/sandbox-quantum/switch/pull/1436/files",
       "https://github.com/sandbox-quantum/switch/pull/1436/files",
       "https://github.com/sandbox-quantum/switch/pull/1436"
     ],
-    "judged_by": "code"
+    "judged_by": "red-examiner",
+    "challenged": true,
+    "challenge_reason": "The PR body says it lacks a working live connection and that non-expiring keys are rejected, which weighs against the inferred working-integration claim. However, the available issue text only asks for a PagerDuty connector with catalog, broker, and regional endpoint coverage; it does not state that live connection or agent grant is required. Please provide the issue's complete acceptance criteria and implementation evidence showing that the stated gaps block one of those required capabilities before treating the inference as conclusively contradicted.",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1436-03",
+    "pr": 1436,
+    "claim": "Self-disclosed gap: not yet",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1436/files",
+      "https://github.com/sandbox-quantum/switch/pull/1436/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1436-04",
+    "pr": 1436,
+    "claim": "Self-disclosed gap: rejects",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1436/files",
+      "https://github.com/sandbox-quantum/switch/pull/1436/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1436-05",
+    "pr": 1436,
+    "claim": "Self-disclosed gap: key_never_expires",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1436/files",
+      "https://github.com/sandbox-quantum/switch/pull/1436/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
+  },
+  {
+    "claim_id": "1436-06",
+    "pr": 1436,
+    "claim": "Self-disclosed gap: no agent grant",
+    "status": "UNVERIFIED",
+    "rationale": "",
+    "evidence_links": [
+      "https://github.com/sandbox-quantum/switch/pull/1436/files",
+      "https://github.com/sandbox-quantum/switch/pull/1436/files"
+    ],
+    "judged_by": "code",
+    "challenged": false,
+    "challenge_reason": "",
+    "rebuttal": ""
   }
 ]
