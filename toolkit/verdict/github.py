@@ -35,7 +35,7 @@ class GitHub:
             API + path, headers={"Accept": "application/vnd.github+json"}
         )
         if self.token:
-            request.add_header("Authorization", f"Bearer {self.token}")
+            request.add_header("Authorization", "Bearer " + self.token)
 
         last_error = None
         for attempt in range(2):
@@ -76,3 +76,19 @@ class GitHub:
         return self._get(f"/search/issues?q=repo:{self.repo}+is:pr+%23{issue}+in:title,body")[
             "items"
         ]
+
+    def list_prs(self, state: str = "all", per_page: int = 100) -> list[dict]:
+        prs = []
+        page = 1
+        while True:
+            batch = self._get(
+                f"/repos/{self.repo}/pulls?state={state}&per_page={per_page}"
+                f"&sort=updated&direction=desc&page={page}"
+            )
+            if not isinstance(batch, list) or not batch:
+                break
+            prs.extend(batch)
+            if len(batch) < per_page:
+                break
+            page += 1
+        return prs

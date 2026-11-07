@@ -9,6 +9,17 @@ Switch setup:
 - Start work by addressing a role or agent explicitly, e.g. `@Clerk case 820`.
 
 Flow: Clerk -> Examiner -> Skeptic -> (maintainer decision) -> Registrar.
+
+Agents:
+- Clerk: `@yellow-clerk`
+- Examiner: `@red-examiner`
+- Skeptic: `@blue-skeptic`
+- Registrar: `@green-registrar`
+
+At each handoff, explicitly mention the next agent or the maintainer.
+For example, after the Skeptic finishes:
+`Maintainer review required for case 825. Approve in the local UI, then address @green-registrar.`
+The Registrar must not run until the human has approved the ruling and addressed it.
 Hard rules for everyone:
 - Cite evidence links. A claim without evidence is UNVERIFIED.
 - Do not call any GitHub write API. Only the Registrar may post, and only after `approval.json` exists.

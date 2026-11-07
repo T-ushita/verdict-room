@@ -4,5 +4,9 @@
 __pycache__/
 *.pyc
 cases/live/
+cases/**/approval.json
+cases/**/approvals/
+cases/**/drafts/
+cases/**/overrides.json
 .pytest_cache/
 .ruff_cache/
