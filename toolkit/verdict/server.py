@@ -166,6 +166,10 @@ class Handler(BaseHTTPRequestHandler):
                 path.stem: clean_text(path.read_text(encoding="utf-8"))
                 for path in drafts_dir.glob("*.md")
             }
+        if "issue" not in drafts:
+            aggregate_draft = directory / "ruling.draft.md"
+            if aggregate_draft.exists():
+                drafts["issue"] = clean_text(aggregate_draft.read_text(encoding="utf-8"))
         approvals = {}
         approvals_dir = directory / "approvals"
         if approvals_dir.exists():
@@ -220,6 +224,8 @@ class Handler(BaseHTTPRequestHandler):
             self._draft(directory, payload)
         elif action == "approve":
             self._approve(directory, payload)
+        elif action == "approve_issue":
+            self._approve_issue(directory, payload)
         else:
             self._send(HTTPStatus.NOT_FOUND, {"error": "not found"})
 
@@ -306,6 +312,28 @@ class Handler(BaseHTTPRequestHandler):
         approval = save_pr_approval(
             directory,
             pr,
+            draft,
+            approver,
+            outcome,
+            human_comments,
+        )
+        self._send(HTTPStatus.OK, approval)
+
+    def _approve_issue(self, directory: Path, payload: dict):
+        from .ruling import normalize_draft_text, save_issue_approval
+
+        draft = normalize_draft_text(str(payload.get("draft", "")))
+        approver = str(payload.get("approver", "")).strip()
+        outcome = str(payload.get("outcome", "")).strip()
+        human_comments = clean_text(str(payload.get("human_comments", "")).strip())
+        if not draft or not approver or not outcome:
+            self._send(
+                HTTPStatus.BAD_REQUEST,
+                {"error": "issue draft, approver, and outcome required"},
+            )
+            return
+        approval = save_issue_approval(
+            directory,
             draft,
             approver,
             outcome,

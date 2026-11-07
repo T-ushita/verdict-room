@@ -233,6 +233,8 @@ def gate_open(
         return False, "issue draft missing"
     if issue_approval.get("draft_hash") != draft_hash(issue_draft_path.read_text(encoding="utf-8")):
         return False, "issue draft changed after approval"
+    if not os.environ.get("GITHUB_WRITE_TOKEN", "").strip():
+        return False, "GITHUB_WRITE_TOKEN is not set"
     return True, "ok"
 
 

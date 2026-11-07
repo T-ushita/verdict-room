@@ -37,13 +37,6 @@ jobs:
         run: |
           cd toolkit
           python -m verdict.cli scan --repo "$VERDICT_REPO"
-          {
-            echo "### Verdict Room scan summary"
-            python -c 'import json; from pathlib import Path; s=json.loads(Path("../cases/scan-summary.json").read_text()); print("- Changed/new PRs: %d" % s["changed_count"]); print("- Unchanged PRs: %d" % s["unchanged_count"]); print("- Affected issues: %s" % s["affected_issues"]); [print("- PR #%d [%s]: %s" % (i["number"], i["status"], i["title"])) for i in s["changed"]]'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Save PR state
-        uses: actions/cache@v4
-        with:
-          path: cases/pr-state.json
-          key: verdict-pr-state-${{ github.run_id }}
+          echo "### Verdict Room scan summary" >> "$GITHUB_STEP_SUMMARY"
+          python -c 'import json; from pathlib import Path; s=json.loads(Path("../cases/scan-summary.json").read_text()); print("- Changed/new PRs: %d" % s["changed_count"]); print("- Unchanged PRs: %d" % s["unchanged_count"]); print("- Affected issues: %s" % s["affected_issues"])' >> "$GITHUB_STEP_SUMMARY"
+          python -c 'import json; from pathlib import Path; s=json.loads(Path("../cases/scan-summary.json").read_text()); [print("- PR #%d [%s]: %s" % (i["number"], i["status"], i["title"])) for i in s["changed"]]' >> "$GITHUB_STEP_SUMMARY"

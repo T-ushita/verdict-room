@@ -97,6 +97,20 @@
       document.getElementById("case").innerHTML = `
         <h2>Issue #${data.issue}: ${esc(caseData.issue_title)}</h2>
         <div class="meta">${esc(caseData.source)} | ${prs.length} competing PRs | room verdict-${data.issue}</div>
+        <article class="pr">
+          <header><h2>Issue-level ruling</h2></header>
+          <div class="draft">
+            <label><strong>Combined ruling draft</strong></label>
+            <textarea id="issue-draft">${esc(drafts.issue || "")}</textarea>
+            <div class="actions">
+              <select id="issue-outcome">${OUTCOMES.map(outcome => `<option>${esc(outcome)}</option>`).join("")}</select>
+              <input id="issue-approver" placeholder="Approver name">
+              <button class="primary" onclick="approveIssue()">Approve issue ruling</button>
+            </div>
+            <textarea id="issue-human-comments" placeholder="Human review comments">${esc((approvals.issue || {}).human_comments || "")}</textarea>
+            <div class="meta" id="issue-result"></div>
+          </div>
+        </article>
         <div class="prs">${prs.map(pr => {
           const rows = ledgerByPr[pr.number] || [];
           const existingDraft = drafts[String(pr.number)] || defaultDraft(pr, rows);
@@ -167,6 +181,20 @@
         await api(`/api/cases/${currentIssue}/override`, {method:"POST", body:JSON.stringify({claim_id:claimId, status, note, approver})});
         await loadCase(currentIssue);
       } catch (error) { alert(error.message); }
+    }
+    async function approveIssue() {
+      const draft = document.getElementById("issue-draft").value;
+      const outcome = document.getElementById("issue-outcome").value;
+      const approver = document.getElementById("issue-approver").value.trim();
+      const humanComments = document.getElementById("issue-human-comments").value.trim();
+      if (!approver) {
+        document.getElementById("issue-result").textContent = "Approver name is required.";
+        return;
+      }
+      try {
+        const result = await api(`/api/cases/${currentIssue}/approve_issue`, {method:"POST", body:JSON.stringify({draft, outcome, approver, human_comments: humanComments})});
+        document.getElementById("issue-result").textContent = `Issue ruling approved by ${esc(result.approver)} | ${result.draft_hash}`;
+      } catch (error) { document.getElementById("issue-result").textContent = error.message; }
     }
     loadCases();
   </script>

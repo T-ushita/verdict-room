@@ -70,9 +70,23 @@ def test_gate_requires_everything(tmp_path, monkeypatch):
     assert not gate_open(tmp_path, "d", True)[0]
     write_approval(tmp_path, "d", "maintainer")
     save_issue_approval(tmp_path, "d", "maintainer", "approved")
+    monkeypatch.setenv("GITHUB_WRITE_TOKEN", "test-write-token")
     assert gate_open(tmp_path, "d", True)[0]
     assert not gate_open(tmp_path, "d2", True)[0]  # draft changed
     assert not gate_open(tmp_path, "d", False)[0]  # no --live
+
+
+def test_gate_requires_write_token(tmp_path, monkeypatch):
+    monkeypatch.setenv("VERDICT_LIVE_POST", "1")
+    monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
+    monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
+    monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
+    monkeypatch.delenv("GITHUB_WRITE_TOKEN", raising=False)
+    write_approval(tmp_path, "d", "maintainer")
+    save_issue_approval(tmp_path, "d", "maintainer", "approved")
+    ok, reason = gate_open(tmp_path, "d", True)
+    assert not ok
+    assert "token" in reason.lower()
 
 
 def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
@@ -80,6 +94,7 @@ def test_ui_pr_approval_and_saved_draft_share_gate_hash(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")
     monkeypatch.setenv("VERDICT_POST_REPO", "user/switch-fork")
     monkeypatch.setenv("VERDICT_POST_ISSUE", "999")
+    monkeypatch.setenv("GITHUB_WRITE_TOKEN", "test-write-token")
 
     textarea = "Verdict Room summary\r\n\r\nEvidence-ledger findings:\n- 825-01: VERIFIED\n"
     approval = save_pr_approval(
