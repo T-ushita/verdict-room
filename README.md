@@ -50,6 +50,12 @@ as `VERDICT_POST_ISSUE`. Keep `GITHUB_WRITE_TOKEN` out of room prompts and agent
 sessions; enter it only in the trusted terminal session that invokes
 `verdict ruling 825 --live`.
 
+Check local readiness without using or printing a write token:
+
+```powershell
+python scripts/check_live_readiness.py
+```
+
 ## Scheduled PR scanning
 
 The repository includes `.github/workflows/verdict-scan.yml`. It scans hourly and
