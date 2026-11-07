@@ -44,6 +44,12 @@ Open `http://127.0.0.1:8787`.
 Offline demo: use `--offline` commands with `fixtures/`. Issue 825 is currently a
 fixture-backed snapshot, not a claim that the recorded GitHub data is live.
 
+For the sandbox live-post gate, use issue
+[#1 in T-ushita/verdict-room-sandbox](https://github.com/T-ushita/verdict-room-sandbox/issues/1)
+as `VERDICT_POST_ISSUE`. Keep `GITHUB_WRITE_TOKEN` out of room prompts and agent
+sessions; enter it only in the trusted terminal session that invokes
+`verdict ruling 825 --live`.
+
 ## Scheduled PR scanning
 
 The repository includes `.github/workflows/verdict-scan.yml`. It scans hourly and
