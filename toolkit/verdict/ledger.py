@@ -113,6 +113,9 @@ def merge(
                 v.get("rationale", ""),
                 links,
                 v.get("judged_by", "code"),
+                challenged=bool(ch),
+                challenge_reason=ch.get("reason", "") if ch else "",
+                rebuttal=rebuttal.get("rebuttal", "") if rebuttal else "",
             )
         )
     return rows

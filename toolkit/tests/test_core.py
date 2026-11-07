@@ -226,6 +226,26 @@ def test_ledger_no_evidence_forces_unverified():
     assert rows[0].evidence_links == []
 
 
+def test_ledger_exposes_challenge_and_rebuttal():
+    claim = Claim("1436-02", 1436, "working integration", "e2e", "working integration")
+    rows = merge(
+        [claim],
+        [],
+        {
+            claim.id: {
+                "status": "UNVERIFIED",
+                "rationale": "Not enough live evidence",
+                "judged_by": "red-examiner",
+            }
+        },
+        {claim.id: {"reason": "Missing acceptance criteria", "rebutted": False}},
+        {claim.id: {"rebuttal": "Issue does not require live access"}},
+    )
+    assert rows[0].challenged is True
+    assert rows[0].challenge_reason == "Missing acceptance criteria"
+    assert rows[0].rebuttal == "Issue does not require live access"
+
+
 def test_gate_rejects_upstream_posting(tmp_path, monkeypatch):
     monkeypatch.setenv("VERDICT_LIVE_POST", "1")
     monkeypatch.setenv("VERDICT_REPO", "sandbox-quantum/switch")

@@ -173,6 +173,12 @@ class Handler(BaseHTTPRequestHandler):
                 path.stem: json.loads(path.read_text(encoding="utf-8"))
                 for path in approvals_dir.glob("*.json")
             }
+        agent_files = {}
+        for filename in ("verdicts.json", "challenges.json", "rebuttals.json"):
+            path = directory / filename
+            agent_files[filename] = (
+                json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+            )
         self._send(
             HTTPStatus.OK,
             {
@@ -181,6 +187,9 @@ class Handler(BaseHTTPRequestHandler):
                 "ledger": ledger,
                 "drafts": drafts,
                 "approvals": approvals,
+                "verdicts": agent_files["verdicts.json"],
+                "challenges": agent_files["challenges.json"],
+                "rebuttals": agent_files["rebuttals.json"],
             },
         )
 

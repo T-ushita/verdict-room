@@ -60,6 +60,9 @@ class LedgerRow:
     rationale: str
     evidence_links: list[str]
     judged_by: str
+    challenged: bool = False
+    challenge_reason: str = ""
+    rebuttal: str = ""
 
 
 def to_dict(obj):
