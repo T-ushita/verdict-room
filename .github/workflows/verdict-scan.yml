@@ -40,15 +40,15 @@ jobs:
           {
             echo "### Verdict Room scan summary"
             python - <<'PY'
-import json
-from pathlib import Path
-summary = json.loads(Path("../cases/scan-summary.json").read_text())
-print(f"- Changed/new PRs: {summary['changed_count']}")
-print(f"- Unchanged PRs: {summary['unchanged_count']}")
-print(f"- Affected issues: {summary['affected_issues']}")
-for item in summary["changed"]:
-    print(f"- PR #{item['number']} [{item['status']}]: {item['title']}")
-PY
+            import json
+            from pathlib import Path
+            summary = json.loads(Path("../cases/scan-summary.json").read_text())
+            print(f"- Changed/new PRs: {summary['changed_count']}")
+            print(f"- Unchanged PRs: {summary['unchanged_count']}")
+            print(f"- Affected issues: {summary['affected_issues']}")
+            for item in summary["changed"]:
+                print(f"- PR #{item['number']} [{item['status']}]: {item['title']}")
+            PY
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Save PR state

@@ -87,16 +87,19 @@
       }
     }
     function renderCase(data) {
-      const caseData = data.case;
+      const caseData = data.case && typeof data.case === "object" ? data.case : {};
       const prs = caseData.prs || [];
+      const ledger = Array.isArray(data.ledger) ? data.ledger : [];
+      const drafts = data.drafts && typeof data.drafts === "object" ? data.drafts : {};
+      const approvals = data.approvals && typeof data.approvals === "object" ? data.approvals : {};
       const ledgerByPr = {};
-      for (const row of data.ledger) (ledgerByPr[row.pr] ||= []).push(row);
+      for (const row of ledger) (ledgerByPr[row.pr] ||= []).push(row);
       document.getElementById("case").innerHTML = `
         <h2>Issue #${data.issue}: ${esc(caseData.issue_title)}</h2>
         <div class="meta">${esc(caseData.source)} | ${prs.length} competing PRs | room verdict-${data.issue}</div>
         <div class="prs">${prs.map(pr => {
           const rows = ledgerByPr[pr.number] || [];
-          const existingDraft = data.drafts[String(pr.number)] || defaultDraft(pr, rows);
+          const existingDraft = drafts[String(pr.number)] || defaultDraft(pr, rows);
           return `<article class="pr">
             <header><h2>#${pr.number} ${esc(pr.title)}</h2><div class="meta">${esc(pr.author)} | ${esc(pr.state)}${pr.draft ? " | draft" : ""}</div></header>
             ${rows.map(row => `<div class="row ${row.status}">
@@ -125,7 +128,7 @@
                 <input id="approver-${pr.number}" placeholder="Approver name">
                 <button class="primary" onclick="approveDraft(${pr.number})">Approve</button>
               </div>
-              <textarea id="human-comments-${pr.number}" placeholder="Human review comments">${esc((data.approvals[String(pr.number)] || {}).human_comments || "")}</textarea>
+              <textarea id="human-comments-${pr.number}" placeholder="Human review comments">${esc((approvals[String(pr.number)] || {}).human_comments || "")}</textarea>
               <div class="meta" id="result-${pr.number}"></div>
             </div>
           </article>`;
